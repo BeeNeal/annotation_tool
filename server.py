@@ -20,7 +20,7 @@ def index():
         return render_template("login.html")
 
 
-@app.route('/annotation_tool', methods=['GET'])
+@app.route('/annotation_tool', methods=['POST'])
 def annotation_tool():
     """Grabs username and routes to annotation tool page"""
 
@@ -29,14 +29,14 @@ def annotation_tool():
         return render_template("login.html")
     session['username'] = user
 
-    return render_template('annotation_tool.html', user=user)
+    return render_template("annotation_tool.html", user=user)
 
 
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
-    return redirect(url_for('index'))
+    return redirect('/')
 
 
 if __name__ == '__main__':
