@@ -2,6 +2,7 @@ from flask import (Flask, jsonify, render_template, redirect, request,
                    flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+import helper_functions
 
 app = Flask(__name__)
 
@@ -28,8 +29,9 @@ def annotation_tool():
     if user is None:
         return render_template("login.html")
     session['username'] = user
+    fnames = helper_functions.ls_files()
 
-    return render_template("annotation_tool.html", user=user)
+    return render_template("annotation_tool.html", user=user, fnames=fnames)
 
 
 @app.route('/logout')
