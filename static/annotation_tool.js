@@ -17,7 +17,9 @@ function alertMe(evt) {
 $("#skip").click(alertMe);
 
 function dewit(evt) {
-    alert('yello!');
+    let fname = document.getElementById('select2-mysel-container').title
+    alert(fname);
+
 };
 
 $('myselect').on('select2:change', dewit(evt));
