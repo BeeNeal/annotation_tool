@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 app.secret_key = "ABC"
 
+app.jinja_env.undefined = StrictUndefined
+
 
 
 @app.route('/', methods=['GET'])
@@ -24,14 +26,53 @@ def index():
 @app.route('/annotation_tool', methods=['POST'])
 def annotation_tool():
     """Grabs username and routes to annotation tool page"""
-
+    
+    # test ajax - if there is an ajax call, will return json, otherwise will render template
+    selected_name = request.form.get('title')
+    if selected_name:
+        print('yahoo!')
+        lines = 'zizi'
+        return jsonify(lines) 
     user = request.form.get('username')
     if user is None:
         return render_template("login.html")
     session['username'] = user
     fnames = helper_functions.ls_files()
 
+
+
     return render_template("annotation_tool.html", user=user, fnames=fnames)
+
+@app.route('/pewpew', methods=['POST'])
+def pewpew():
+
+    x = "PEW PEW PEW PEW PEW"
+    print(x)
+    return jsonify(x)
+
+# FAKE ROUTE FOR TEST PURPOSES
+@app.route('/test', methods=['POST'])
+def collect_fname():
+    file_name = request.form.get('title')
+    print(file_name)
+
+    return render_template("show_file.html", user=session['username'],
+                                             fileName=file_name )
+
+
+
+@app.route('/annotation_tool/<title>', methods=["POST"])
+def display_file(title):
+    """Displays file line by line after retrieving file name."""
+
+    # AJAX call
+    file_name = request.form.get('title')
+    print ('heyo', file_name)
+    fnames = helper_functions.ls_files()
+    print(file_name)
+
+    return render_template("annotation_tool.html", user=session['username'],
+                                                   fnames=fnames, )
 
 
 @app.route('/logout')
@@ -45,3 +86,5 @@ if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
     # our web app if we change the code.
     app.run(debug=True)
+    app.debug = True
+    toolbar = DebugToolbarExtension(app)

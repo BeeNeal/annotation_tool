@@ -1,31 +1,37 @@
 
-function selectFileName() {
-    let name = $("#select2-wk8q-container").title()
-    console.log(fname)
-}
-
-$(".myselect").on("select2:select", function selectFileName(e) { 
-  let fname = $(e.currentTarget).val();
-  console.log('hurray')
-  console.log(fname)
-});
-
 function alertMe(evt) {
     alert("Zamboni!");
 };
 
 $("#skip").click(alertMe);
 
-function dewit(evt) {
+function displayLine(result) {
+    alert(result)
+}
+function sendFileName(evt, fname) {
+
+    evt.preventDefault();
+    let fileName = {
+        "title": fname, 
+    };
+    // upon selecting the filename, I am reaching this function, with json
+    // alert(fileName['title'])
+    // now the goal is to send the info up into the url and grab it with python from there
+    $.post("/annotation_tool", fileName, displayLine)
+    // $.post("/annotation_tool<fileName['title']>", fileName, displayLine)
+}
+
+function grabFileName(evt) {
     let fname = document.getElementById('select2-mysel-container').title
     alert(fname);
+    sendFileName(fname)
 
 };
 
-$('myselect').on('select2:change', dewit(evt));
+$('myselect').on('select2:change', grabFileName);
 
 
-    // var fname = document.getElementById('mysel').title
-    // console.log(fname)
 
 
+// Post request to server which will send back the file. Once JS has the whole
+// file, can read it line by line once buttons are used
