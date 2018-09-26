@@ -15,4 +15,3 @@ def return_text(filename):
     with open(directory + '/' + filename) as file:
         return(file.readlines())
 
-print(return_text('qa__ac_enhancement_FAKE.txt'))

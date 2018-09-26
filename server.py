@@ -10,6 +10,8 @@ app.secret_key = "ABC"
 
 app.jinja_env.undefined = StrictUndefined
 
+FNAMES = helper_functions.ls_files()
+
 
 
 @app.route('/', methods=['GET'])
@@ -18,33 +20,47 @@ def index():
 
     if 'username' in session and session['username']:
         user = session['username']
-        return render_template("annotation_tool.html", user=user)
+        return render_template("annotation_tool.html", user=user, fnames=FNAMES)
     else:
         return render_template("login.html")
 
 
-@app.route('/annotation_tool', methods=['POST'])
+@app.route('/annotation_tool', methods=['POST'])  # must be post b/c updating session
 def annotation_tool():
     """Grabs username and routes to annotation tool page"""
-    
-    # test ajax - if there is an ajax call, will return json, otherwise will render template
-    selected_name = request.form.get('title')
-    if selected_name:
-        print('yahoo!')
-        lines = 'zizi'
-        return jsonify(lines) 
+
+    # make sure user is logged in, if not, render login template
     user = request.form.get('username')
     if user is None:
         return render_template("login.html")
+
     session['username'] = user
-    fnames = helper_functions.ls_files()
+
+    # this route should probs just be a login route
+    
+
+    return render_template('annotation_tool.html', user=user, 
+                                                   fnames=FNAMES,
+                                                   )
 
 
+@app.route('/annotate_content', methods=['POST'])
+def display_content():
+    """ """
 
-    return render_template("annotation_tool.html", user=user, fnames=fnames)
+    file_name = request.form.get('title')
+    if file_name:
+        content = helper_functions.return_text(file_name)
+    else:
+        content = 'woohoo'
+  
+    return jsonify(content)
+        # return render_template("annotate_content.html", fname=file, content=content )
+
 
 @app.route('/pewpew', methods=['POST'])
 def pewpew():
+    """test route"""
 
     x = "PEW PEW PEW PEW PEW"
     print(x)

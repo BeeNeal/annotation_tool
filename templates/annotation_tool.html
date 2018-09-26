@@ -13,16 +13,17 @@
       Hi, {{ user }}
       <a href='/logout'>Logout</a><br>
     </div>
-    <div class='ddownMenu' >
-      <h2>Select File to Annotate</h2>
-      <select class="myselect" id="mysel" onchange="grabFileName()">
+        <div class='ddownMenu' >
+            <h2>Select File to Annotate</h2>
+                <select class="myselect" id="mysel" onchange="grabFileName()">
 
-      {% for f in fnames %}
-        <option>{{ f }}</option>
-      {% endfor %}
-      </select>
+            {% for f in fnames %}
+                <option>{{ f }}</option>
+            {% endfor %}
+                </select>
 
-    </div>
+        </div>   
+    
     <div class='buttons'>
       <button id='beginning'>Beginning</button>
       <button id='previous'>Previous</button>
