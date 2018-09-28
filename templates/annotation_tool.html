@@ -24,8 +24,19 @@
       <p id='contentLine'></p>
       <p hidden id='contentPkg'></p>
 
-    </div>  
+    </div>
+    <span id='labelOptions' class='ddownMenu'>
+      <h3>choose a label</h3>
+        <select class='myselect' id='myselLabel' onchange="previewText()">
 
+          {% for l in LABELS %}
+            <option> {{ l }}</option>
+          {% endfor %}
+        </select>  
+    </span>
+    <span id='slotOptions'>
+      Placeholder span for slot options
+    </span>
     
     <div class='buttons'>
       <button id='beginning'>Beginning</button>

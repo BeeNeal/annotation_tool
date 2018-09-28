@@ -3,12 +3,36 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
+function previewText(evt) {
+    // FINISH ME
+
+}
+
+function writeToUserFile() {
+    // FINISH ME
+
+    let labeledText = 'placeholder text for now'
+    $("labeledText").text(labeledText)
+    // display labelled line in new div at bottom of page
+    // then write THAT text to the new file
+};
+
 function nextLine(evt) {
     let fileLines = $("#contentPkg").text();
-    let lastLine = fileLines.split('/n');
+    let lastLine = fileLines.split("\n");
+    lastLine.pop(); // jankily popping the unecessary "" at end of array
+    // May be better to write another function to process the text that comes out
+    // of the html - remove ',', remove ending ""
     let l = lastLine.pop();
-    console.log(typeof(lastLine));
-}
+    writeToUserFile()
+    alert(l);
+    // it's not appearing to actually pop b/c refreshing content with fileLines
+    // text from html everytime. Need to send the package back down to hidden 
+    // html as the popped array
+    // let l = lastLine[lastLine.length - 2]
+    // console.log(l)
+    // need to take out "" from the end of the array
+};
 
 $("#skip").click(alertMe);
 $("#next").click(alertMe);
@@ -16,6 +40,7 @@ $("#next").click(alertMe);
 function displayLine(result) {
     let fileLines = result;
     // let lastLine = fileLines[fileLines.length - 1];
+    // need a function that pics up a line and writes it to file
     let lastLine = fileLines.pop();
     $("#contentLine").text(lastLine);
     // need the following line to be a placeholder so can pick it up in the next function
@@ -37,7 +62,7 @@ function sendFileName(evt, fname) {
 
 function grabFileName(evt) {
     let fname = document.getElementById('select2-mysel-container').title;
-    alert(fname);
+    // alert(fname);
     sendFileName(evt, fname)
 
 };
