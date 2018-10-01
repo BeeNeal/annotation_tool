@@ -17,6 +17,31 @@ function writeToUserFile() {
     // then write THAT text to the new file
 };
 
+function displaySlots(result) {
+    // alert(result)
+    let slots = result.split(' ');
+    // alert(slots)
+    // alert(typeof(slots));
+    // console.log(slots.length)
+    slots.forEach (( function(v) {
+        let button = document.createElement('button');
+        button.type = 'button';
+        document.getElementById("slotOptions").appendChild(button);
+    }));
+
+};
+
+function generateSlotOptions(evt) {
+
+    selectedLabel = document.getElementById('select2-myselLabel-container').title
+    let label = {
+        "label": selectedLabel, 
+    };
+
+    $.post("/generate_slots", label, displaySlots)
+
+};
+
 function nextLine(evt) {
     let fileLines = $("#contentPkg").text();
     let lastLine = fileLines.split("\n");
@@ -58,17 +83,17 @@ function sendFileName(evt, fname) {
     // alert(fileName['title'])
     // now the goal is to send the info up into the url and grab it with python from there
     $.post("/annotate_content", fileName, displayLine)
-}
+};
 
 function grabFileName(evt) {
     let fname = document.getElementById('select2-mysel-container').title;
-    // alert(fname);
     sendFileName(evt, fname)
 
 };
 
 $('myselect').on('select2:change', grabFileName);
 
+$('#myselLabel').on('select2:change', generateSlotOptions);
 
 
 

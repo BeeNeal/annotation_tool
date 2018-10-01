@@ -3,6 +3,7 @@ from flask import (Flask, jsonify, render_template, redirect, request,
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 import helper_functions, data_processing
+import json
 
 app = Flask(__name__)
 
@@ -13,9 +14,10 @@ app.jinja_env.undefined = StrictUndefined
 FNAMES = helper_functions.ls_files()
 LABELS = data_processing.labels_from_json('/Users/bneal/Desktop/annotation_tool/data_files/annotation_structure.json')
 
+
 @app.route('/', methods=['GET'])
 def index():
-    """Routes to login if no username in session."""
+    """Routes to login if no username in session, or annotool if logged in."""
 
     if 'username' in session and session['username']:
         user = session['username']
@@ -36,8 +38,6 @@ def annotation_tool():
 
     session['username'] = user
 
-    # this route should probs just be a login route
-
     return render_template('annotation_tool.html', user=user, 
                                                    fnames=FNAMES,
                                                    labels=LABELS
@@ -46,7 +46,7 @@ def annotation_tool():
 
 @app.route('/annotate_content', methods=['POST'])
 def display_content():
-    """ """
+    """Returns jsonified text content of selected file."""
 
     file_name = request.form.get('title')
     if file_name:
@@ -55,6 +55,15 @@ def display_content():
         content = 'woohoo'
   
     return jsonify(content)
+
+@app.route("/generate_slots", methods=['POST'])
+def generate_slots():
+    """Returns slot options for selected label"""
+
+    label = request.form.get('label')
+    slots = data_processing.slots_from_labels(label[1:])
+
+    return json.dumps(slots)
 
 
 # Fake route for test purposes
