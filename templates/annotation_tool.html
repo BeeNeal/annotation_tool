@@ -27,7 +27,7 @@
     </div>
     <span id='labelOptions' class='ddownMenu'>
       <h3>choose a label</h3>
-        <select class='myselect' id='myselLabel' onchange="generateSlotOptions()">
+        <select class='myselect' id='myselLabel' onchange="grabSlotOptions()">
 
           {% for l in labels %}
             <option> {{ l }}</option>

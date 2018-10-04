@@ -18,20 +18,24 @@ function writeToUserFile() {
 };
 
 function displaySlots(result) {
-    // alert(result)
     let slots = result.split(' ');
-    // alert(slots)
-    // alert(typeof(slots));
-    // console.log(slots.length)
+    // need to clean the results to take out "" and []
+    let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
+    let colorCounter = 0
     slots.forEach (( function(v) {
         let button = document.createElement('button');
         button.type = 'button';
+        button.setAttribute('onClick', v.press);
+        button.innerHTML = v;
+        button.style.backgroundColor = colorOptions[colorCounter];
+        colorCounter ++;
+        console.log(colorCounter);
         document.getElementById("slotOptions").appendChild(button);
     }));
 
 };
 
-function generateSlotOptions(evt) {
+function grabSlotOptions(evt) {
 
     selectedLabel = document.getElementById('select2-myselLabel-container').title
     let label = {
@@ -78,11 +82,10 @@ function sendFileName(evt, fname) {
         "title": fname, 
     };
 
-    console.log(fileName["title"])
     // upon selecting the filename, I am reaching this function, with json
     // alert(fileName['title'])
     // now the goal is to send the info up into the url and grab it with python from there
-    $.post("/annotate_content", fileName, displayLine)
+    $.post('/annotate_content', fileName, displayLine)
 };
 
 function grabFileName(evt) {
@@ -93,7 +96,7 @@ function grabFileName(evt) {
 
 $('myselect').on('select2:change', grabFileName);
 
-$('#myselLabel').on('select2:change', generateSlotOptions);
+$('#myselLabel').on('select2:change', grabSlotOptions);
 
 
 
