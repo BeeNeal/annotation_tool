@@ -20,4 +20,10 @@ def slots_from_labels(label):
     with open(file, encoding='utf-8') as f:
         data = json.loads(f.read())
 
-    return list(data[label].get('slots').keys())
+        #  need to make it so does no error out when no slots
+    slot_options = data[label].get('slots')
+    if slot_options:
+        slots = list(slot_options)
+        return slots
+    else:
+        return None

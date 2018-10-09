@@ -18,27 +18,32 @@ function writeToUserFile() {
 };
 
 function displaySlots(result) {
-    let slots = result.split(' ');
-    // need to clean the results to take out "" and []
-    let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
-    let colorCounter = 0
 
-    // delete buttons when change labels so buttons don't stack
+    // deletes buttons when change labels so slot buttons don't stack
     let slotBtnNode = document.getElementById("slotOptions");
     while (slotBtnNode.firstChild) {
     slotBtnNode.removeChild(slotBtnNode.firstChild);
     }
 
-    slots.forEach (( function(v) {
-        let button = document.createElement('button');
-        button.type = 'button';
-        button.setAttribute('onClick', v.press);
-        button.innerHTML = v;
-        button.style.backgroundColor = colorOptions[colorCounter];
-        colorCounter ++;
-        console.log(colorCounter);
-        document.getElementById("slotOptions").appendChild(button);
-    }));
+    if (result !== 'null') {
+
+        let slots = result.split(' ');
+        // need to clean the results to take out "" and []
+        let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
+        let colorCounter = 0
+
+        slots.forEach (( function(v) {
+            let button = document.createElement('button');
+            button.type = 'button';
+            button.setAttribute('onClick', v.press);
+            button.innerHTML = v;
+            button.style.backgroundColor = colorOptions[colorCounter];
+            colorCounter ++;
+            console.log(colorCounter);
+            document.getElementById("slotOptions").appendChild(button);
+        }));
+
+    }
 
 };
 
