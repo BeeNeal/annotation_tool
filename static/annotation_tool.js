@@ -22,6 +22,13 @@ function displaySlots(result) {
     // need to clean the results to take out "" and []
     let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
     let colorCounter = 0
+
+    // delete buttons when change labels so buttons don't stack
+    let slotBtnNode = document.getElementById("slotOptions");
+    while (slotBtnNode.firstChild) {
+    slotBtnNode.removeChild(slotBtnNode.firstChild);
+    }
+
     slots.forEach (( function(v) {
         let button = document.createElement('button');
         button.type = 'button';
