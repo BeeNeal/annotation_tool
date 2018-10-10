@@ -27,7 +27,7 @@ function displaySlots(result) {
 
     if (result !== 'null') {
 
-        let slots = result.split(' ');
+        let slots = result.split(',');
         // need to clean the results to take out "" and []
         let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
         let colorCounter = 0
@@ -35,14 +35,16 @@ function displaySlots(result) {
         slots.forEach (( function(v) {
             let button = document.createElement('button');
             button.type = 'button';
+            button.id = v
             button.setAttribute('onClick', v.press);
             button.innerHTML = v;
             button.style.backgroundColor = colorOptions[colorCounter];
             colorCounter ++;
-            console.log(colorCounter);
             document.getElementById("slotOptions").appendChild(button);
         }));
 
+    } else {
+        slotBtnNode.innerHTML = 'No Slots';
     }
 
 };
@@ -106,11 +108,48 @@ function grabFileName(evt) {
 
 };
 
-$('myselect').on('select2:change', grabFileName);
+// function highlight() {
+//     let selObj = window.getSelection(); 
+//     alert(selObj);
+//     let selRange = selObj.getRangeAt(0);
+//     // do stuff with the range
+// }
 
+// Need to change actionbutton to the indiv class of slot buttons - for now just do one of the buttons
+// need to change #result to the highlighted text
+// will also need to make it so can only highlight text in the content p
+$(function() {
+    // need slotBtnid to correspond to slot button text
+    let slotBtnId = $('#slotOptions') // can I ID something that is clicked
+    // when slot button is clicked, display text in preview (will highlight later)
+    $('#actionButton').click(function() {
+        if (selectedRange) {
+            $('#preview').text(selectedRange.toString());
+            clearInterval(timer);
+        }
+    });
+
+    timer = setInterval(getSelectedRange, 150);
+});
+
+var timer = null;
+
+var selectedRange = null;
+
+var getSelectedRange = function() {
+    try {
+        if (window.getSelection) {
+            selectedRange = window.getSelection().getRangeAt(0);
+        } else {
+            selectedRange = document.getSelection().getRangeAt(0);
+        }
+    } catch (err) {
+
+    }
+
+};
+
+// below lines are grabbing the user selected file and labels
+$('myselect').on('select2:change', grabFileName);
 $('#myselLabel').on('select2:change', grabSlotOptions);
 
-
-
-// Post request to server which will send back the file. Once JS has the whole
-// file, can read it line by line once buttons are used
