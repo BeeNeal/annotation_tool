@@ -36,7 +36,8 @@ function displaySlots(result) {
             let button = document.createElement('button');
             button.type = 'button';
             button.id = v
-            button.setAttribute('onClick', v.press);
+            button.className = 'slotOptionBtn'
+            button.addEventListener("click", changeColor)
             button.innerHTML = v;
             button.style.backgroundColor = colorOptions[colorCounter];
             colorCounter ++;
@@ -46,8 +47,13 @@ function displaySlots(result) {
     } else {
         slotBtnNode.innerHTML = 'No Slots';
     }
-
+    grabSlotBtns()
 };
+
+function changeColor(){
+    let slotColor = this.style.backgroundColor;
+    $('#contentLine').css("background-color", slotColor);
+}
 
 function grabSlotOptions(evt) {
 
@@ -105,49 +111,13 @@ function sendFileName(evt, fname) {
 function grabFileName(evt) {
     let fname = document.getElementById('select2-mysel-container').title;
     sendFileName(evt, fname)
-
 };
 
-// function highlight() {
-//     let selObj = window.getSelection(); 
-//     alert(selObj);
-//     let selRange = selObj.getRangeAt(0);
-//     // do stuff with the range
-// }
+// As soon as slots are generated, this is called, but not put into namespace
+function grabSlotBtns(){
+    let allSlotBtns = document.getElementsByClassName("slotOptionBtn");    
+}
 
-// Need to change actionbutton to the indiv class of slot buttons - for now just do one of the buttons
-// need to change #result to the highlighted text
-// will also need to make it so can only highlight text in the content p
-$(function() {
-    // need slotBtnid to correspond to slot button text
-    let slotBtnId = $('#slotOptions') // can I ID something that is clicked
-    // when slot button is clicked, display text in preview (will highlight later)
-    $('#actionButton').click(function() {
-        if (selectedRange) {
-            $('#preview').text(selectedRange.toString());
-            clearInterval(timer);
-        }
-    });
-
-    timer = setInterval(getSelectedRange, 150);
-});
-
-var timer = null;
-
-var selectedRange = null;
-
-var getSelectedRange = function() {
-    try {
-        if (window.getSelection) {
-            selectedRange = window.getSelection().getRangeAt(0);
-        } else {
-            selectedRange = document.getSelection().getRangeAt(0);
-        }
-    } catch (err) {
-
-    }
-
-};
 
 // below lines are grabbing the user selected file and labels
 $('myselect').on('select2:change', grabFileName);
