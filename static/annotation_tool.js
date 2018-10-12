@@ -47,13 +47,33 @@ function displaySlots(result) {
     } else {
         slotBtnNode.innerHTML = 'No Slots';
     }
-    grabSlotBtns()
 };
 
 function changeColor(){
     let slotColor = this.style.backgroundColor;
-    $('#contentLine').css("background-color", slotColor);
-}
+    let selObj = window.getSelection();
+    // let range = selObj.getRangeAt(0);
+
+    alert(typeof(range))
+
+  if (selObj.rangeCount && selObj.getRangeAt) {
+    range = selObj.getRangeAt(0);
+  }
+  // Set design mode to on
+  document.designMode = "on";
+  if (range) {
+    selObj.removeAllRanges();
+    selObj.addRange(range);
+  }
+  // Colorize text
+  document.execCommand("ForeColor", false, slotColor);
+  // Set design mode to off
+  document.designMode = "off";
+
+} // changeColor function closing bracket
+
+
+
 
 function grabSlotOptions(evt) {
 
@@ -113,10 +133,32 @@ function grabFileName(evt) {
     sendFileName(evt, fname)
 };
 
-// As soon as slots are generated, this is called, but not put into namespace
-function grabSlotBtns(){
-    let allSlotBtns = document.getElementsByClassName("slotOptionBtn");    
-}
+// $(function() {
+//     if (selectedRange) {
+//             $('#preview').text(selectedRange.toString());
+//             // selectedRange.style.backgroundColor = 'blue';
+//             clearInterval(timer);
+//         }
+
+//     timer = setInterval(getSelectedRange, 150);
+// });
+// var timer = null;
+
+// var selectedRange = null;
+
+// var getSelectedRange = function() {
+//     try {
+//         if (window.getSelection) {
+//             selectedRange = window.getSelection().getRangeAt(0);
+//         } else {
+//             selectedRange = document.getSelection().getRangeAt(0);
+//             console.log(selectedRange)
+//         }
+//     } catch (err) {
+
+//     }
+
+// };
 
 
 // below lines are grabbing the user selected file and labels
