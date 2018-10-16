@@ -3,8 +3,23 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
-function previewText(evt) {
-    // FINISH ME
+function textParse(annotatedText){
+    let originalText = $('#contentLine').html()   
+    alert(originalText)
+
+    // FINISH ME - need to insert the slots into the proper text from the content line
+    // HAVE: original text, text object containing keys as slots with val as selected text
+    // remember, need to be able to select diff text for same slot? actually will that ever be the case?
+}
+
+function preview(evt) {
+    console.log('getting to preview function');
+    let annotatedText = $('#storage').data('key');
+    console.log(annotatedText)
+    let previewText = textParse(annotatedText)
+    // this will display the text, need to parse it(although shouldn't replace button)
+    $('#preview').text(previewText)
+
 
 }
 
@@ -49,30 +64,46 @@ function displaySlots(result) {
     }
 };
 
+// Is it improper to have this as global? Leaky?
+const annotatedTextObject = {};
+
 function changeColor(){
     let slotColor = this.style.backgroundColor;
     let selObj = window.getSelection();
-    // let range = selObj.getRangeAt(0);
+    let currentId = this.id
 
-    alert(typeof(range))
+    // let textObj = pkgHighlightedSelection(selObj, currentId)
+ 
+    if (selObj.rangeCount && selObj.getRangeAt) {
+        range = selObj.getRangeAt(0);
+      }
+    // Set design mode to on
+    document.designMode = "on";
+      if (range) {
+        selObj.removeAllRanges();
+        selObj.addRange(range);
+      }
+    // Colorize text
+    document.execCommand("ForeColor", false, slotColor);
+    // Set design mode to off
+    document.designMode = "off";
 
-  if (selObj.rangeCount && selObj.getRangeAt) {
-    range = selObj.getRangeAt(0);
-  }
-  // Set design mode to on
-  document.designMode = "on";
-  if (range) {
-    selObj.removeAllRanges();
-    selObj.addRange(range);
-  }
-  // Colorize text
-  document.execCommand("ForeColor", false, slotColor);
-  // Set design mode to off
-  document.designMode = "off";
+} 
 
-} // changeColor function closing bracket
+    // %*%*%*%*HERE*%*%*%*% storing 
 
+// function pkgHighlightedSelection(selObj){
 
+//     let getProperty = function (propertyName) {
+//     return obj[propertyName];
+// };
+//     let selectedText = {
+//         this.id: selObj
+//     };
+//     annotatedTextObject
+//     $('#storage').data('annotatedText', selectedText);
+
+// }
 
 
 function grabSlotOptions(evt) {
@@ -85,6 +116,7 @@ function grabSlotOptions(evt) {
     $.post("/generate_slots", label, displaySlots)
 
 };
+
 
 function nextLine(evt) {
     let fileLines = $("#contentPkg").text();
@@ -133,32 +165,6 @@ function grabFileName(evt) {
     sendFileName(evt, fname)
 };
 
-// $(function() {
-//     if (selectedRange) {
-//             $('#preview').text(selectedRange.toString());
-//             // selectedRange.style.backgroundColor = 'blue';
-//             clearInterval(timer);
-//         }
-
-//     timer = setInterval(getSelectedRange, 150);
-// });
-// var timer = null;
-
-// var selectedRange = null;
-
-// var getSelectedRange = function() {
-//     try {
-//         if (window.getSelection) {
-//             selectedRange = window.getSelection().getRangeAt(0);
-//         } else {
-//             selectedRange = document.getSelection().getRangeAt(0);
-//             console.log(selectedRange)
-//         }
-//     } catch (err) {
-
-//     }
-
-// };
 
 
 // below lines are grabbing the user selected file and labels

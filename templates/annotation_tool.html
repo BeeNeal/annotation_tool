@@ -37,9 +37,10 @@
     <span id='slotOptions'>
     </span>
     <div id='preview'>
-      <p>
-        <input type="button" id="actionButton" value="Show the selected text above" />
-      </p>
+      <div hidden id='storage'></div>
+        <input type="button" id="previewButton" 
+               value="Done - preview annotated text"
+               onclick="preview()" />
     </div>
     
     <div class='buttons'>
