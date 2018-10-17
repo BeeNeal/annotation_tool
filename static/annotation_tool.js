@@ -3,20 +3,6 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
-// This function no longer has a purpose - DELETE when ready
-function textParse(annotatedText){
-    // gives me text with font colors which delineate on which words tags go
-    let originalText = $('#contentLine').html()   
-    alert(originalText)
-    // need to make an object which maps the font colors to the slot text/ids 
-    // add to this empty string
-    let annoTextForPreview = ''
-
-
-    // FINISH ME - need to insert the slots into the proper text from the content line
-    // HAVE: original text, text object containing keys as slots with val as selected text
-    // remember, need to be able to select diff text for same slot? actually will that ever be the case?
-}
 
 function preview(result) {
 
@@ -38,6 +24,17 @@ function writeToUserFile() {
     // then write THAT text to the new file
 };
 
+function stashColorSlotsObj(colorSlotsObject) {
+    // potentially add functionality for when no slots - deal with it when it breaks, 
+    // may handle on python side
+    $("#storage").val(colorSlotsObject)
+    console.log($("#storage").val)
+
+    // QUESTION - why not defined when try to call it in displaySlots?
+
+}
+
+
 function displaySlots(result) {
 
     // deletes buttons when change labels so slot buttons don't stack
@@ -49,11 +46,14 @@ function displaySlots(result) {
     if (result !== 'null') {
 
         let slots = result.split(',');
+        // initializing object for slot to color processing in python
+        let colorSlotsObject = {};
         // need to clean the results to take out "" and []
         let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
         let colorCounter = 0
 
         slots.forEach (( function(v) {
+            colorSlotsObject[v] = colorOptions[colorCounter]
             let button = document.createElement('button');
             button.type = 'button';
             button.id = v
@@ -62,13 +62,17 @@ function displaySlots(result) {
             button.innerHTML = v;
             button.style.backgroundColor = colorOptions[colorCounter];
             colorCounter ++;
-            document.getElementById("slotOptions").appendChild(button);
-        }));
+            $('#slotOptions').append(button);
 
+        }));
+    // let pkgdSlots = {};
+    // pkgdSlots['slotsNcolors'] = colorSlotsObject
+    $("#storage").val(colorSlotsObject)
     } else {
         slotBtnNode.innerHTML = 'No Slots';
     }
 };
+
 
 
 function changeColor(){
@@ -108,13 +112,10 @@ function grabSlotOptions(evt) {
 function processAnnotatedText(evt) {
 
     let textWithHighlights = $('#contentLine').html()
-    // need slot-color dictionary to send along with text FIXME <- can generate 
-    // dynamically from buttons on html? OR make the object when make the buttons
-    //  and store it hidden in the HTML, and grab it above
-    let colorSlotsObj = 'FINISH THIS OBJECT AS DETAILED ABOVE'
+
     let annotatedText = {
         "text": textWithHighlights,
-        "colorSlotsObj":  colorSlotsObj
+        "colorSlotsObj": $("#storage").val()
     };
 
     $.post("/process_text", annotatedText, preview)

@@ -72,8 +72,10 @@ def process_text():
     """Grab highlighted text from JS, returns text with tags"""
 
     annotated_line = request.form.get('text')
-    # color_to_slots = request.args.get('FINISHTHISONJSSIDE')
-    annotated_text = data_processing.process_annotated_text(annotated_line)
+    print(annotated_line)
+    color_to_slots = request.form.get('colorSlotsObj')
+    print('colors to slots' + color_to_slots)
+    # annotated_text = data_processing.process_annotated_text(annotated_line)
 
     return json.dumps(annotated_text) 
 
