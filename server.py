@@ -66,6 +66,18 @@ def generate_slots():
     return json.dumps(slots)
 
 
+# for annotated text processing 
+@app.route("/process_text", methods=['POST'])
+def process_text():
+    """Grab highlighted text from JS, returns text with tags"""
+
+    annotated_line = request.form.get('text')
+    # color_to_slots = request.args.get('FINISHTHISONJSSIDE')
+    annotated_text = data_processing.process_annotated_text(annotated_line)
+
+    return json.dumps(annotated_text) 
+
+
 # Fake route for test purposes
 @app.route('/pewpew', methods=['POST'])
 def pewpew():

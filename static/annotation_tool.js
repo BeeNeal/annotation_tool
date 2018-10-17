@@ -3,6 +3,7 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
+// This function no longer has a purpose - DELETE when ready
 function textParse(annotatedText){
     // gives me text with font colors which delineate on which words tags go
     let originalText = $('#contentLine').html()   
@@ -17,11 +18,11 @@ function textParse(annotatedText){
     // remember, need to be able to select diff text for same slot? actually will that ever be the case?
 }
 
-function preview(evt) {
-    console.log('getting to preview function');
-    let annotatedText = $('#storage').data('key');
-    console.log(annotatedText)
-    let previewText = textParse(annotatedText)
+function preview(result) {
+
+    // FIXME -probs need to format the JSON
+    let previewText = result
+    alert(result)
     // this will display the text, need to parse it(although shouldn't replace button)
     $('#preview').text(previewText)
 
@@ -100,6 +101,23 @@ function grabSlotOptions(evt) {
     };
 
     $.post("/generate_slots", label, displaySlots)
+
+};
+
+
+function processAnnotatedText(evt) {
+
+    let textWithHighlights = $('#contentLine').html()
+    // need slot-color dictionary to send along with text FIXME <- can generate 
+    // dynamically from buttons on html? OR make the object when make the buttons
+    //  and store it hidden in the HTML, and grab it above
+    let colorSlotsObj = 'FINISH THIS OBJECT AS DETAILED ABOVE'
+    let annotatedText = {
+        "text": textWithHighlights,
+        "colorSlotsObj":  colorSlotsObj
+    };
+
+    $.post("/process_text", annotatedText, preview)
 
 };
 

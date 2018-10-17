@@ -27,3 +27,22 @@ def slots_from_labels(label):
         return slots
     else:
         return None
+
+
+def process_annotated_text(annotated_line):
+    """Takes highlighted text from JS, removes font tags, and adds slot tags"""
+
+    return "These routes are working"
+
+
+
+
+
+
+
+
+
+
+
+
+
