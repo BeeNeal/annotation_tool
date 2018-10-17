@@ -4,8 +4,13 @@ function alertMe(evt) {
 };
 
 function textParse(annotatedText){
+    // gives me text with font colors which delineate on which words tags go
     let originalText = $('#contentLine').html()   
     alert(originalText)
+    // need to make an object which maps the font colors to the slot text/ids 
+    // add to this empty string
+    let annoTextForPreview = ''
+
 
     // FINISH ME - need to insert the slots into the proper text from the content line
     // HAVE: original text, text object containing keys as slots with val as selected text
@@ -64,15 +69,11 @@ function displaySlots(result) {
     }
 };
 
-// Is it improper to have this as global? Leaky?
-const annotatedTextObject = {};
 
 function changeColor(){
     let slotColor = this.style.backgroundColor;
     let selObj = window.getSelection();
     let currentId = this.id
-
-    // let textObj = pkgHighlightedSelection(selObj, currentId)
  
     if (selObj.rangeCount && selObj.getRangeAt) {
         range = selObj.getRangeAt(0);
@@ -89,21 +90,6 @@ function changeColor(){
     document.designMode = "off";
 
 } 
-
-    // %*%*%*%*HERE*%*%*%*% storing 
-
-// function pkgHighlightedSelection(selObj){
-
-//     let getProperty = function (propertyName) {
-//     return obj[propertyName];
-// };
-//     let selectedText = {
-//         this.id: selObj
-//     };
-//     annotatedTextObject
-//     $('#storage').data('annotatedText', selectedText);
-
-// }
 
 
 function grabSlotOptions(evt) {
