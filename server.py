@@ -6,8 +6,9 @@ import helper_functions, data_processing
 import json
 
 app = Flask(__name__)
-
-app.secret_key = "ABC"
+toolbar = DebugToolbarExtension(app)
+# secret key for the session
+app.secret_key = 'abc'
 
 app.jinja_env.undefined = StrictUndefined
 
@@ -68,16 +69,17 @@ def generate_slots():
 
 # for annotated text processing 
 @app.route("/process_text", methods=['POST'])
-def process_text():
+def process_annotated_text():
     """Grab highlighted text from JS, returns text with tags"""
 
+    # Try changing all of this to GET instead of POST when get a chance
     annotated_line = request.form.get('text')
-    print(annotated_line)
-    color_to_slots = request.form.get('colorSlotsObj')
-    print('colors to slots' + color_to_slots)
-    # annotated_text = data_processing.process_annotated_text(annotated_line)
+    color_to_slots = request.form.get("colorSlotsObj")
 
-    return json.dumps(annotated_text) 
+    annotated_text = data_processing.process_annotated_text(annotated_line, 
+                                                            color_to_slots)
+
+    return annotated_text
 
 
 # Fake route for test purposes
@@ -98,8 +100,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    # debug=True gives us error messages in the browser and also "reloads"
-    # our web app if we change the code.
     app.run(debug=True)
-    app.debug = True
-    toolbar = DebugToolbarExtension(app)
+    # app.debug = True
+    app.config['SECRET_KEY'] = 'SUPERSECRETKEY'

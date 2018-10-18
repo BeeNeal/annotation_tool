@@ -29,12 +29,19 @@ def slots_from_labels(label):
         return None
 
 
-def process_annotated_text(annotated_line):
+def process_annotated_text(annotated_line, color_slots_obj):
     """Takes highlighted text from JS, removes font tags, and adds slot tags"""
 
+    colors_to_slots = json.loads(color_slots_obj)
+    print(colors_to_slots)
+    # will be returning slotted text line 
     return "These routes are working"
 
 
+# dict we're dealing with:
+# {'["acmodel"': '#FF4E00', ' "acmodelnumber"': '#8EA604', ' "actype"]': '#F5BB00'}
+# Ugh. It's come to it. No point spending time processing the slot tags excess [] 
+# and "" when needs to be done farther up the line in JS
 
 
 

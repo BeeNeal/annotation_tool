@@ -111,14 +111,16 @@ function grabSlotOptions(evt) {
 
 function processAnnotatedText(evt) {
 
-    let textWithHighlights = $('#contentLine').html()
-
+    let textWithHighlights = $('#contentLine').html();
+    let colorSlots = $("#storage").val();
+    colorSlots = JSON.stringify(colorSlots);
     let annotatedText = {
+        "colorSlotsObj": colorSlots,
         "text": textWithHighlights,
-        "colorSlotsObj": $("#storage").val()
     };
+    console.log(annotatedText)
 
-    $.post("/process_text", annotatedText, preview)
+    $.post('/process_text', annotatedText, preview)
 
 };
 
