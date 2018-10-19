@@ -41,19 +41,22 @@ def extract_slot_colors(annotated_line):
     return ordered
 
 
-def replace_font_with_slot(annotated_line, ordered_slots):
+def replace_font_with_slot(annotated_line, ordered_slots, colors_to_slots):
     """Inserts slot name at ending font tags"""
 
     new_line = annotated_line
 
-    # need to do recursively, b/c strings immutable and don't change in place, 
-    # so need to keep running function on same line of text
-    while '</font>' in new_line:
-        new_line = new_line.replace('</font>', ordered_slots.pop(0), 1)
-        return replace_font_with_slot(new_line, ordered_slots)
+    if '</font>' in new_line:
+        new_line = new_line.replace('</font>', ('|<' + colors_to_slots[ordered_slots.pop(0)]) + '>', 1)
+        return replace_font_with_slot(new_line, ordered_slots, colors_to_slots)
 
     return new_line
 
+def second_pass(new_line):
+    """ """
+
+    print(new_line.split("<font color="))
+    return new_line.split("<font color=")
 
 
 def process_annotated_text(annotated_line, color_slots_obj):
@@ -61,7 +64,9 @@ def process_annotated_text(annotated_line, color_slots_obj):
 
     colors_to_slots = json.loads(color_slots_obj)
     ordered_slots = extract_slot_colors(annotated_line)
-    
+    first_pass = replace_font_with_slot(annotated_line, ordered_slots, 
+                                        colors_to_slots)
+    print(second_pass(first_pass))
     # will be returning slotted text line 
     return "These routes are working"
 
@@ -70,13 +75,14 @@ def process_annotated_text(annotated_line, color_slots_obj):
 sample_text = """ "qa__ac_enhancement   <font color="#ff4e00">What</font> is the 
 <font color="#8ea604">best</font> way to use <font color="#f5bb00">enhancement mode</font>?" """
 
+processed_once = """ "qa__ac_enhancement   <font color="#ff4e00">WhatTHIS is the 
+<font color="#8ea604">best**** way to use <font color="#f5bb00">enhancement mode#####?" """
+
 sample_dict = {'["acmodel"': '#ff4e00', ' "acmodelnumber"': '#8ea604', ' "actype"]': '#f5bb00'}
 # Ugh. It's come to it. No point spending time processing the slot tags excess [] 
 # and "" when needs to be done farther up the line in JS
 
 
-#  what if I replaced the fontcolor code with the actual slot name? Then would just have to take out the trash!
-# but strings are immutable...
 # want:
 # "qa__ac_enhancement|<["acmodel"> What is the best|< "acmodelnumber"> way to use enhancement|< " "actype\"]"> mode|< " "actype"]\">?"
 
@@ -85,17 +91,61 @@ sample_dict = {'["acmodel"': '#ff4e00', ' "acmodelnumber"': '#8ea604', ' "actype
 
 # use a stack to collect the font color, and slot accordingly
 
-# could use regex to collect font colors in order
-# then could split on </font>
-# all text starting with > (front the font color tag) is text that needs to be slotted
-
-# for i in range(len(annotated_line)):
-#     pass
 
 
+['',
+ '"#ff4e00">qa__ac_enhancement|<["acmodel"> What is the ', 
+'"#8ea604">best|< "acmodelnumber"> way to use ',
+ '"#f5bb00">example enhancement|< "actype"]> mode?\n']
 
-# don't need to make another dict, just need to add on |< SLOT > - although if adding on the tail > is complicated
-# perhaps should make another dict
+def second_pass():
+    """ """
+    
+    seen_tag_opener = False
+    seen_pipe = False
+    seen_space = False
+    word_span = 0
+    second_pass = ''
+
+    for item in lst:
+        for i in range(len(item)):
+            if item[i] == '|' and not seen_space:
+                second_pass += item
+                continue
+            elif item[i] == '|' and seen_space:
+                second_pass += process_space(item)
+                continue
+            elif item[i] == '>':
+                seen_tag_opener = True
+            elif item[i] == ' ':
+                seen_space = True
+
+
+def process_space(item):
+    """Slot annotation for 2+ consec words are annotated with same slot."""
+
+
+
+
+    # OK, by having the chunks split on <font> know that there is only one annotation per chunk
+    # so even though forces us to get n2 runtime instead of greedy, OK b/c small lines, and less room for error
+
+    # need to create state of if in font bracket tags and if not tagged/more than one word between tags
+
+
+# third_pass will be complete line, of font trash taken out and dooone!
+
+# What we have now is complete EXCEPT for when 2 words occur in same slot tag, and are tagged with same slot
+# need to see '>' and space without pipe
+
+
+
+
+
+
+
+
+
 
 
 

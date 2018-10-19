@@ -53,7 +53,7 @@ function displaySlots(result) {
         let colorCounter = 0
 
         slots.forEach (( function(v) {
-            colorSlotsObject[v] = colorOptions[colorCounter]
+            colorSlotsObject[colorOptions[colorCounter]] = v;
             let button = document.createElement('button');
             button.type = 'button';
             button.id = v
@@ -65,8 +65,7 @@ function displaySlots(result) {
             $('#slotOptions').append(button);
 
         }));
-    // let pkgdSlots = {};
-    // pkgdSlots['slotsNcolors'] = colorSlotsObject
+        
     $("#storage").val(colorSlotsObject)
     } else {
         slotBtnNode.innerHTML = 'No Slots';
