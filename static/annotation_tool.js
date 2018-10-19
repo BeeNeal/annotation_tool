@@ -49,7 +49,7 @@ function displaySlots(result) {
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
         // need to clean the results to take out "" and []
-        let colorOptions = ['#FF4E00', '#8EA604', '#F5BB00', '#A23B72', '#2E86AB']
+        let colorOptions = ['#ff4e00', '#8ea604', '#f5bb00', '#a23b72', '#2e86ab']
         let colorCounter = 0
 
         slots.forEach (( function(v) {
