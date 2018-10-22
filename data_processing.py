@@ -28,6 +28,8 @@ def slots_from_labels(label):
     else:
         return None
 
+# # # # # # # # # # Above this processes file data# # # # # # # # # # # # # # #
+ 
 
 def extract_slot_colors(annotated_line):
     """Extract slot color codes by index"""
@@ -98,8 +100,8 @@ sample_dict = {'["acmodel"': '#ff4e00', ' "acmodelnumber"': '#8ea604', ' "actype
 '"#8ea604">best|< "acmodelnumber"> way to use ',
  '"#f5bb00">example enhancement|< "actype"]> mode?\n']
 
-def second_pass():
-    """ """
+def second_pass(text_with_slots):
+    """Takes in text with font tags replaced by slot; tags remaining words."""
     
     seen_tag_opener = False
     seen_pipe = False
@@ -123,6 +125,54 @@ def second_pass():
 
 def process_space(item):
     """Slot annotation for 2+ consec words are annotated with same slot."""
+
+    # finds the slot of the item
+    slot_start = item.index('|<')
+    slot_end = item.index('>', slot_start)
+    slot_tag = item[slot_start:slot_end + 1]
+
+#  could do it this way, but then would have to run it again in case 3 words tagged with same slot
+    tag_start = item.index('>')
+    space_index = item.index(' ', tag_start, slot_start)
+
+
+    new_item = ''
+    seen_pipe = False
+    seen_tag_opener = False
+
+#  can try it this way, but would be easier to turn into a list, use contains, then join back together?
+    for char in item:
+        if char == '>':
+            seen_tag_opener = True
+        elif char == ' ':
+            if seen_tag_opener = True:
+                new_item += item[]
+
+        new_item += char
+
+def proc(item):
+
+    slot_start = item.index('|<')
+    slot_end = item.index('>', slot_start)
+    slot_tag = item[slot_start:slot_end + 1]
+
+    new_item = item.split(" ")
+    for i in range(len(new_item)):
+
+        if '|<' in new_item[i]:
+            break
+        else:
+            new_item[i] = str(new_item[i]) + slot_tag + ' '
+
+    return ''.join(new_item)
+
+
+ '"#f5bb00">example enhancement|< "actype"]> mode?\n'
+ ['"#f5bb00">example', 'enhancement|<', '"actype"]>', 'mode?\n']
+
+
+
+
 
 
 
