@@ -81,7 +81,7 @@ def process_annotated_text():
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             color_to_slots)
 
-    return annotated_text
+    return jsonify(annotated_text)
 
 
 # Fake route for test purposes
