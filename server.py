@@ -75,10 +75,7 @@ def process_annotated_text():
 
     # Try changing all of this to GET instead of POST when get a chance
     annotated_line = request.form.get('text')
-    print(annotated_line)
     colors_to_slots = request.form.get("colorSlotsObj")
-    print(colors_to_slots)
-
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             colors_to_slots)
 

@@ -1,9 +1,6 @@
 import json
-import re
 
 file = '/Users/bneal/Desktop/annotation_tool/data_files/annotation_structure.json'
-
-
 
 def labels_from_json(file):
     """Takes in a JSON file, and returns keys"""
@@ -97,6 +94,7 @@ def tag_when_spaces(item):
         else:
             new_item[i] = str(new_item[i]) + slot_tag + ' '
 
+    # remove remnants of the opening font tag, ie:'"#8ea604">'
     new_item[0] = new_item[0][10:]
     return ' '.join(new_item)
 
