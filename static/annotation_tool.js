@@ -37,6 +37,7 @@ function stashColorSlotsObj(colorSlotsObject) {
 
 function displaySlots(result) {
 
+    console.log(result)
     // deletes buttons when change labels so slot buttons don't stack
     let slotBtnNode = document.getElementById("slotOptions");
     while (slotBtnNode.firstChild) {
