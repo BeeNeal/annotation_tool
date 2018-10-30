@@ -28,32 +28,7 @@ def slots_from_labels(label):
 
 # # # # # # # # # # Above this processes file data# # # # # # # # # # # # # # #
  
-#
-# def extract_slot_colors(annotated_line, colors_to_slots):
-#     """Return list of slots in order of annotation"""
-#     # currently works if user tags utterance with all possible slots - basically,
-#     # if they have a slot to use, they must use it
-#
-#     colors_to_slots = json.loads(colors_to_slots)
-#     ordered = []
-#
-#     # FIXME
-#
-#     # Loop over color codes and match them(find index of and extract) with
-#     # what's in the annotation string, preserving the order
-#
-#     # tweaked it, and am now not preserving order
-#     for color in list(colors_to_slots.keys()):
-#         print(color)
-#         print(annotated_line)
-#         color_index = annotated_line.index(color)
-#         color_code = annotated_line[color_index: color_index + 7]
-#         ordered.append(colors_to_slots[color_code])
-#
-#     return ordered
 
-
-# PLAYGROUND
 def all_indices(annotated_line, sub):
 
     indices = []
@@ -77,9 +52,6 @@ def extract_slot_colors(annotated_line, colors_to_slots):
 
     return ordered
 
-
-
-# PLAYGROUND END
 
 def replace_font_with_slot(annotated_line, colors_to_slots):
     """Inserts slot name at ending font tags - returns list"""
