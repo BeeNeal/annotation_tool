@@ -37,7 +37,6 @@ function stashColorSlotsObj(colorSlotsObject) {
 
 function displaySlots(result) {
 
-    console.log(result)
     // deletes buttons when change labels so slot buttons don't stack
     let slotBtnNode = document.getElementById("slotOptions");
     while (slotBtnNode.firstChild) {
@@ -45,8 +44,10 @@ function displaySlots(result) {
     }
 
     if (result !== 'null') {
-
-        let slots = result.split(',');
+        console.log(result)
+        let slots = Function('"use strict";return (' + result + ')')();
+//        let slots = eval('(' + result + ')');
+        console.log(slots)
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
         // need to clean the results to take out "" and []

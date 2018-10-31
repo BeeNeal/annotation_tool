@@ -30,6 +30,7 @@ def slots_from_labels(label):
  
 
 def all_indices(annotated_line, sub):
+    """Extracts all starting indices of color codes, returns list of indices"""
 
     indices = []
     for match in re.finditer(sub, annotated_line):
@@ -40,17 +41,17 @@ def all_indices(annotated_line, sub):
 
 
 def extract_slot_colors(annotated_line, colors_to_slots):
-    """ """
+    """Returns an list of the slot names in order of how were highlighted"""
 
     colors_to_slots = json.loads(colors_to_slots)
-    ordered = []
+    ordered_slots = []
     indices = all_indices(annotated_line, '<font color=')
 
     for i in indices:
         color_code = annotated_line[i+13:i+20]
-        ordered.append(colors_to_slots[color_code])
+        ordered_slots.append(colors_to_slots[color_code])
 
-    return ordered
+    return ordered_slots
 
 
 def replace_font_with_slot(annotated_line, colors_to_slots):
