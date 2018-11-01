@@ -9,8 +9,8 @@
       <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
   </head>
   <body>
-    <div>
-      Hi, {{ user }}
+    <div id="'greetUser">
+      <h3>Hi, {{ user }} </h3>
       <a href='/logout'>Logout</a><br>
     </div>
     <div class='ddownMenu' >
@@ -37,6 +37,7 @@
     <span id='slotOptions'>
     </span>
     <div id='preview'>
+      <div id="previewText"></div>
       <div hidden id='storage'></div>
         <input type="button" id="previewButton" 
                value="Done - preview annotated text"

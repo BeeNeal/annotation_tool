@@ -73,13 +73,26 @@ def generate_slots():
 def process_annotated_text():
     """Grab highlighted text from JS, returns text with tags"""
 
-    # Try changing all of this to GET instead of POST when get a chance
+    # Try changing all oxf this to GET instead of POST when get a chance
     annotated_line = request.form.get('text')
     colors_to_slots = request.form.get("colorSlotsObj")
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             colors_to_slots)
 
     return jsonify(annotated_text)
+
+
+@app.route('/write_to_file', methods=['POST'])
+def append_to_file():
+    """Receive post req with annotated line, append it to new file"""
+
+    annotated_pkg = request.form.get('annotated')
+    file_name = request.form.get('fileName')
+    username = session['username']
+    data_processing.append_file_text(annotated_pkg, file_name, username)
+
+    # return next line for processing
+    return annotated_pkg
 
 
 # Fake route for test purposes

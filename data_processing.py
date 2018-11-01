@@ -119,5 +119,22 @@ def process_annotated_text(annotated_line, color_slots_obj):
     return tagged_text
 
 
+# # # # # # # # # # Below this writes data to new file # # # # # # # # # # # # #
+
+
+def append_file_text(annotated_pkg, file_name, username):
+    """Takes in annotated text, writes to new file labeled with username"""
+
+    print(annotated_pkg + file_name + username)
+
+    file_name_wo_ext = file_name[:-4]
+    new_file = file_name_wo_ext + '_' + username + '.txt'
+    f = open(new_file, 'a+')
+    f.write(annotated_pkg + '\n')
+    f.close()
+
+    return
+
+
 
 

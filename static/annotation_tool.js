@@ -3,34 +3,42 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
+function nextLineHere(result){
+// FIXME - Currently a placeholder
+    alert(result)
+};
 
 function preview(result) {
 
-    // FIXME -probs need to format the JSON
-    let previewText = result
-    alert(result)
-    // this will display the text, need to parse it(although shouldn't replace button)
-    $('#preview').text(previewText)
-
+    let previewText = result;
+    let label = $('#select2-myselLabel-container').attr('title');
+//    currently the below tab is not showing up on the page, but is present
+    let annotated = label + '\t' + result;
+    $('#previewText').text(annotated);
 
 }
 
 function writeToUserFile() {
     // FINISH ME
 
-    let labeledText = 'placeholder text for now'
-    $("labeledText").text(labeledText)
-    // display labelled line in new div at bottom of page
-    // then write THAT text to the new file
+    let fileName = $('#select2-mysel-container').attr('title');
+    let annotated_text = $('#previewText').text();
+
+    let annotated_pkg = {
+        'annotated': annotated_text,
+        'fileName': fileName
+    }
+    console.log(annotated_pkg);
+
+    $.post('/write_to_file', annotated_pkg, nextLineHere)
+//    what do when get back? Show next line, reset everything back to blank
+
 };
 
 function stashColorSlotsObj(colorSlotsObject) {
     // potentially add functionality for when no slots - deal with it when it breaks, 
     // may handle on python side
     $("#storage").val(colorSlotsObject)
-    console.log($("#storage").val)
-
-    // QUESTION - why not defined when try to call it in displaySlots?
 
 }
 
@@ -44,10 +52,9 @@ function displaySlots(result) {
     }
 
     if (result !== 'null') {
-        console.log(result)
         let slots = Function('"use strict";return (' + result + ')')();
-//        let slots = eval('(' + result + ')');
-        console.log(slots)
+//        let slots = eval('(' + result + ')'); <-worse way to do the above line
+
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
         // need to clean the results to take out "" and []
@@ -127,13 +134,20 @@ function processAnnotatedText(evt) {
 
 
 function nextLine(evt) {
+    // as soon as hit next, write content to file
+    writeToUserFile()
     let fileLines = $("#contentPkg").text();
+    displayLine(fileLines)
+    // then display new line
+    console.log(fileLines)
     let lastLine = fileLines.split("\n");
+    console.log(lastLine)
+
+
     lastLine.pop(); // jankily popping the unecessary "" at end of array
     // May be better to write another function to process the text that comes out
     // of the html - remove ',', remove ending ""
     let l = lastLine.pop();
-    writeToUserFile()
     alert(l);
     // it's not appearing to actually pop b/c refreshing content with fileLines
     // text from html everytime. Need to send the package back down to hidden 
@@ -146,7 +160,7 @@ function nextLine(evt) {
 $("#skip").click(alertMe);
 $("#next").click(alertMe);
 
-function displayLine(result) {
+function displayLine(result) {  //change name to displayFirstLine
     let fileLines = result;
     // let lastLine = fileLines[fileLines.length - 1];
     // need a function that pics up a line and writes it to file
@@ -157,14 +171,11 @@ function displayLine(result) {
 
 }
 function sendFileName(evt, fname) {
-    // evt.preventDefault
+
     let fileName = {
         "title": fname, 
     };
 
-    // upon selecting the filename, I am reaching this function, with json
-    // alert(fileName['title'])
-    // now the goal is to send the info up into the url and grab it with python from there
     $.post('/annotate_content', fileName, displayLine)
 };
 
