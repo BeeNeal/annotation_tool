@@ -19,7 +19,6 @@ function preview(result) {
 }
 
 function writeToUserFile() {
-    // FINISH ME
 
     let fileName = $('#select2-mysel-container').attr('title');
     let annotated_text = $('#previewText').text();
@@ -28,11 +27,8 @@ function writeToUserFile() {
         'annotated': annotated_text,
         'fileName': fileName
     }
-    console.log(annotated_pkg);
 
-    $.post('/write_to_file', annotated_pkg, nextLineHere)
-//    what do when get back? Show next line, reset everything back to blank
-
+    $.post('/write_to_file', annotated_pkg, nextLine)
 };
 
 function stashColorSlotsObj(colorSlotsObject) {
@@ -126,7 +122,6 @@ function processAnnotatedText(evt) {
         "colorSlotsObj": colorSlots,
         "text": textWithHighlights,
     };
-    console.log(annotatedText)
 
     $.post('/process_text', annotatedText, preview)
 
@@ -134,21 +129,25 @@ function processAnnotatedText(evt) {
 
 
 function nextLine(evt) {
-    // as soon as hit next, write content to file
-    writeToUserFile()
     let fileLines = $("#contentPkg").text();
-    displayLine(fileLines)
+//    Have string, but need an array to do what we want
+console.log(fileLines)
+    let allLines = fileLines.split("\n")
+    console.log(allLines)
+    alert(allLines[0])
+//    displayLine(fileLines)
+
     // then display new line
-    console.log(fileLines)
-    let lastLine = fileLines.split("\n");
-    console.log(lastLine)
-
-
-    lastLine.pop(); // jankily popping the unecessary "" at end of array
-    // May be better to write another function to process the text that comes out
-    // of the html - remove ',', remove ending ""
-    let l = lastLine.pop();
-    alert(l);
+//    console.log(fileLines)
+//    let lastLine = fileLines.split("\n");
+//    console.log(lastLine)
+//
+//
+//    lastLine.pop(); // jankily popping the unecessary "" at end of array
+//    // May be better to write another function to process the text that comes out
+//    // of the html - remove ',', remove ending ""
+//    let l = lastLine.pop();
+//    alert(l);
     // it's not appearing to actually pop b/c refreshing content with fileLines
     // text from html everytime. Need to send the package back down to hidden 
     // html as the popped array
