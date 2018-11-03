@@ -3,10 +3,6 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
-function nextLineHere(result){
-// FIXME - Currently a placeholder
-    alert(result)
-};
 
 function preview(result) {
 
@@ -15,26 +11,6 @@ function preview(result) {
 //    currently the below tab is not showing up on the page, but is present
     let annotated = label + '\t' + result;
     $('#previewText').text(annotated);
-
-}
-
-function writeToUserFile() {
-
-    let fileName = $('#select2-mysel-container').attr('title');
-    let annotated_text = $('#previewText').text();
-
-    let annotated_pkg = {
-        'annotated': annotated_text,
-        'fileName': fileName
-    }
-
-    $.post('/write_to_file', annotated_pkg, nextLine)
-};
-
-function stashColorSlotsObj(colorSlotsObject) {
-    // potentially add functionality for when no slots - deal with it when it breaks, 
-    // may handle on python side
-    $("#storage").val(colorSlotsObject)
 
 }
 
@@ -128,44 +104,50 @@ function processAnnotatedText(evt) {
 };
 
 
-function nextLine(evt) {
-    let fileLines = $("#contentPkg").text();
-//    Have string, but need an array to do what we want
-console.log(fileLines)
-    let allLines = fileLines.split("\n")
-    console.log(allLines)
-    alert(allLines[0])
-//    displayLine(fileLines)
+function writeToUserFile() {
 
-    // then display new line
-//    console.log(fileLines)
+    let fileName = $('#select2-mysel-container').attr('title');
+    let annotated_text = $('#previewText').text();
+
+    let annotated_pkg = {
+        'annotated': annotated_text,
+        'fileName': fileName
+    }
+
+    $.post('/write_to_file', annotated_pkg, nextLine)
+};
+
+
+function stashColorSlotsObj(colorSlotsObject) {
+    //  add functionality for when no slots - deal with it when it breaks,
+    // may handle on python side
+    $("#storage").val(colorSlotsObject)
+
+}
+
+
+function nextLine(evt) {
+    // remove previous text preview from page
+    $('#previewText').text('');
+    let fileLines = $("#contentPkg").text();
+    // Have string, but need an array to do what we want - this comma split
+    // doesn't work if there are commas in the data
+    let allLines = fileLines.split(",");
+    displayLine(allLines);
+
 //    let lastLine = fileLines.split("\n");
-//    console.log(lastLine)
-//
-//
-//    lastLine.pop(); // jankily popping the unecessary "" at end of array
-//    // May be better to write another function to process the text that comes out
-//    // of the html - remove ',', remove ending ""
-//    let l = lastLine.pop();
-//    alert(l);
-    // it's not appearing to actually pop b/c refreshing content with fileLines
-    // text from html everytime. Need to send the package back down to hidden 
-    // html as the popped array
-    // let l = lastLine[lastLine.length - 2]
-    // console.log(l)
-    // need to take out "" from the end of the array
+
 };
 
 $("#skip").click(alertMe);
 $("#next").click(alertMe);
 
-function displayLine(result) {  //change name to displayFirstLine
+function displayLine(result) {
     let fileLines = result;
     // let lastLine = fileLines[fileLines.length - 1];
-    // need a function that pics up a line and writes it to file
     let lastLine = fileLines.pop();
     $("#contentLine").text(lastLine);
-    // need the following line to be a placeholder so can pick it up in the next function
+    // need the following line to be storage, pick it up in nextLine function
     $("#contentPkg").text(fileLines);  
 
 }
