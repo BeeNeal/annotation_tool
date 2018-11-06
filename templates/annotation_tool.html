@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Annotation Tool</title>
@@ -6,12 +7,17 @@
       <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
       <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
       <script src="static/annotation_tool.js"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+
+
       <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
   </head>
   <body>
-    <div id="'greetUser">
-      <h3>Hi, {{ user }} </h3>
-      <a href='/logout'>Logout</a><br>
+    <div id="'greetUser" class="navbar is-fluid">
+      <img class="navbar-brand" src="/static/midea_logo.png"></img>
+      <div class="navbar-item"><h3>Hi, {{ user }} </h3></div>
+      <a class='navbar-item' href='/logout'>Logout</a><br>
     </div>
     <div class='ddownMenu' >
       <h2>Select File to Annotate</h2>

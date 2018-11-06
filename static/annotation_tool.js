@@ -4,7 +4,8 @@ function alertMe(evt) {
 };
 
 function sameFileAlert() {
-    
+    const warning = 'A completed or in progress file for this user already exists - overwrite?';
+    alert(warning)
 };
 
 function preview(result) {
