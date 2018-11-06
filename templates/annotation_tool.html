@@ -39,16 +39,14 @@
     <div id='preview'>
       <div id="previewText"></div>
       <div hidden id='storage'></div>
-        <input type="button" id="previewButton" 
-               value="Done - preview annotated text"
-               onclick="processAnnotatedText()" />
+
     </div>
     
     <div class='buttons'>
       <button id='beginning'>Beginning</button>
       <button id='previous'>Previous</button>
       <button id='skip' onclick="alertMe()">Skip</button>
-      <button id='next' onclick="writeToUserFile()">Next</button>
+      <button id='next' onclick="processAnnotatedText()">Preview</button>
     </div>
     <script type="text/javascript">
       $(".myselect").select2();

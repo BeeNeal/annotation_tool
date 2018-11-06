@@ -3,6 +3,9 @@ function alertMe(evt) {
     alert("Zamboni!");
 };
 
+function sameFileAlert() {
+    
+};
 
 function preview(result) {
 
@@ -79,7 +82,7 @@ function changeColor(){
 
 function grabSlotOptions(evt) {
 
-    selectedLabel = document.getElementById('select2-myselLabel-container').title
+    selectedLabel = $('#select2-myselLabel-container').attr('title')
     let label = {
         "label": selectedLabel, 
     };
@@ -88,9 +91,21 @@ function grabSlotOptions(evt) {
 
 };
 
+function toggleToNext(){
+    $("#next").attr('onclick', 'writeToUserFile()');
+    $("#next").text("Next");
+
+};
+
+function toggleToPreview() {
+    $("#next").attr('onclick', 'processAnnotatedText()');
+    $("#next").text("Preview");
+
+}
 
 function processAnnotatedText(evt) {
 
+    toggleToNext();
     let textWithHighlights = $('#contentLine').html();
     let colorSlots = $("#storage").val();
     colorSlots = JSON.stringify(colorSlots);
@@ -106,6 +121,7 @@ function processAnnotatedText(evt) {
 
 function writeToUserFile() {
 
+    toggleToPreview()
     let fileName = $('#select2-mysel-container').attr('title');
     let annotated_text = $('#previewText').text();
 
