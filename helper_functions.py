@@ -16,4 +16,3 @@ def return_text(filename):
         content = file.readlines()
         content.reverse()
         return(content)
-

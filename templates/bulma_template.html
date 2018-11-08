@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Annotation Tool</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="static/annotation_tool.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
+  </head>
+
+  <body>
+    <div id="'greetUser" class="navbar is-fluid">
+      <img class="navbar-brand" src="/static/midea_logo.png">
+      <div class="navbar-item"><h3>Hi, {{ user }} </h3></div>
+      <a class='navbar-item' href='/logout'>Logout</a><br>
+    </div>
+
+    <div class="container">
+      <div class="notification">
+    file-selection
+    </div>
+      </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-4">
+            Label Selection
+          </div>
+          <div class="column is-8">
+            Text line
+            <section class='section'>
+            slot buttons
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <section class='section'>
+      <div class='column has-text-centered'>
+        <div class="container">
+          text preview
+        </div>
+      </div>
+    </section>
+    <div class='column has-text-centered'>
+      <div class="container">
+    buttons
+      </div>
+    </div>
+  </body>
