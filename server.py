@@ -22,7 +22,7 @@ def index():
 
     if 'username' in session and session['username']:
         user = session['username']
-        return render_template("annotation_tool.html", user=user, fnames=FNAMES, 
+        return render_template("annotation_tool.html", user=user, fnames=FNAMES,
                                                        labels=LABELS)
     else:
         return render_template("login.html")
@@ -39,7 +39,7 @@ def annotation_tool():
 
     session['username'] = user
 
-    return render_template('annotation_tool.html', user=user, 
+    return render_template('annotation_tool.html', user=user,
                                                    fnames=FNAMES,
                                                    labels=LABELS
                                                    )

@@ -9,7 +9,7 @@
     <script src="static/annotation_tool.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="/static/styles.css"/>-->
 
 
   </head>
@@ -22,18 +22,21 @@
 
     <div class="main">
 
-      <div class="fileSelectionContainer">
-        <div class='ddownMenu' >Select File to Annotate
+      <div class="container is-fluid">
+         <div class="">
+           <div class="fileSelectionContainer">
+              <div class='ddownMenu' >Select File to Annotate
+              <select class="myselect select" id="mysel" onchange="grabFileName()">
+                {% for f in fnames %}
+                  <option>{{ f }}</option>
+                {% endfor %}
+              </select>
+              <p hidden id='contentPkg'></p>
+              </div>
+           </div>
+         </div>
+       </div>
 
-            <select class="myselect" id="mysel" onchange="grabFileName()">
-
-              {% for f in fnames %}
-                <option>{{ f }}</option>
-              {% endfor %}
-            </select>
-          <p hidden id='contentPkg'></p>
-        </div>
-      </div>
       <div class="level">
         <div id='labelOptions' class='ddownMenu level-left'>
           <h3>Choose a label</h3>
@@ -51,7 +54,6 @@
       <div id='preview'>
         <div id="previewText"></div>
         <div hidden id='storage'></div>
-
       </div>
 
       <div class='buttons'>
