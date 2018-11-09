@@ -9,10 +9,9 @@
     <script src="static/annotation_tool.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
-    <!--<link rel="stylesheet" type="text/css" href="/static/styles.css"/>-->
-
-
+    <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
   </head>
+
   <body>
     <div id="'greetUser" class="navbar is-fluid">
       <img class="navbar-brand" src="/static/midea_logo.png">
@@ -20,53 +19,73 @@
       <a class='navbar-item' href='/logout'>Logout</a><br>
     </div>
 
-    <div class="main">
+    <div class='main'>
 
-      <div class="container is-fluid">
-         <div class="">
-           <div class="fileSelectionContainer">
-              <div class='ddownMenu' >Select File to Annotate
-              <select class="myselect select" id="mysel" onchange="grabFileName()">
+      <div class="container">
+        <div class="notification">
+         <div class="fileSelectionContainer">
+            <div class='ddownMenu' >Select File to Annotate
+              <select class="myselect" id="mysel" onchange="grabFileName()">
                 {% for f in fnames %}
                   <option>{{ f }}</option>
                 {% endfor %}
               </select>
               <p hidden id='contentPkg'></p>
-              </div>
-           </div>
-         </div>
-       </div>
-
-      <div class="level">
-        <div id='labelOptions' class='ddownMenu level-left'>
-          <h3>Choose a label</h3>
-            <select class='myselect' id='myselLabel' onchange="grabSlotOptions()">
-
-              {% for l in labels %}
-                <option> {{ l }}</option>
-              {% endfor %}
-            </select>
+            </div>
+          </div>
+      </div>
         </div>
 
-          <div id='contentLine' class="level-item"></div>
-      </div>
-      <div id='slotOptions'></div>
-      <div id='preview'>
-        <div id="previewText"></div>
-        <div hidden id='storage'></div>
-      </div>
+      <section class="section is-large">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-4">
 
-      <div class='buttons'>
-        <button id='beginning'>Beginning</button>
-        <button id='previous'>Previous</button>
-        <button id='skip' onclick="alertMe()">Skip</button>
-        <button id='next' onclick="processAnnotatedText()">Preview</button>
-      </div>
-      <script type="text/javascript">
-        $(".myselect").select2();
-      </script>
+             <div id='labelOptions' class='ddownMenu'>
+                <h3>Choose a label</h3>
+                  <select class='myselect' id='myselLabel' onchange="grabSlotOptions()">
 
-    </div>
+                    {% for l in labels %}
+                      <option> {{ l }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            </div>
+            <div class="column is-8">
+              <div id='contentLine' class=""></div>
+              <div id='slotOptions'></div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+
+      <section class='section'>
+        <div class='column has-text-centered'>
+          <div class="container">
+            <div id='preview' class="title">
+              <div id="previewText"></div>
+              <div hidden id='storage'></div>
+          </div>
+        </div>
+
+      <div class='column has-text-centered'>
+        <div class="container btns">
+          <div class='buttons'>
+            <button id='beginning'>Beginning</button>
+            <button id='previous'>Previous</button>
+            <button id='skip' onclick="alertMe()">Skip</button>
+            <button id='next' onclick="processAnnotatedText()">Preview</button>
+          </div>
+        </div>
+      </div>
+      </section>
+
+          <script type="text/javascript">
+            $(".myselect").select2();
+          </script>
+      </div>
   </body>
 </html>
-

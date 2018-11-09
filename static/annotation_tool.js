@@ -95,12 +95,15 @@ function grabSlotOptions(evt) {
 function toggleToNext(){
     $("#next").attr('onclick', 'writeToUserFile()');
     $("#next").text("Next");
-
+//    $("#preview").css('background-color', 'has-text-white-ter')
+    document.getElementById("preview").style.backgroundColor = "#1A95CE";
 };
 
 function toggleToPreview() {
     $("#next").attr('onclick', 'processAnnotatedText()');
     $("#next").text("Preview");
+    document.getElementById("preview").style.backgroundColor = "";
+
 
 }
 

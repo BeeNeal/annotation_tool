@@ -1,10 +1,10 @@
 .main {
     background-image: url("paperBg.jpg");
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 60px;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 40;
+    left:0;
 }
 
 button {
@@ -20,14 +20,10 @@ button {
 }
 
 .myselect {
-    width:500px
+    width:500px;
 }
 
 .ddownMenu {
-    width:500px;
-    margin:0px auto;
-    margin-top:30px;
-    height:500px;
 }
 
 .buttons {
@@ -38,49 +34,39 @@ button {
 }
 
 
-.level {
-    height: 500px;
-
-}
-
 #slotOptions {
-    width: 500px;
-    margin-right: 200px;
-    position: absolute;
-    left: 700px;
-    bottom: 500px;
+
     display: flex;
     justify-content: center;
 
+}
+
+.btns {
+    height: 300px;
 }
 
 
 .fileSelectionContainer {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    font-size: 18px;
+
 }
 
 #labelOptions {
-    margin: 100px;
-    width: 400px;
 
 }
 
 #contentLine {
-    width: 600px;
-    margin-right: 200px;
-    position: absolute;
-    left: 650px;
-    background-color: C2E7D9;
+
     text-align: center;
 }
+
+
 
 #preview {
     display: flex;
     justify-content: center;
-    height: 25%;
+    height: 200px;
+    border-radius: 6px;
+
 
 
 }
