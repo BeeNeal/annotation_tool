@@ -13,13 +13,26 @@
   </head>
 
   <body>
+
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+        File complete - please choose another file
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+
+
     <div id="'greetUser" class="navbar is-fluid">
       <img class="navbar-brand" src="/static/midea_logo.png">
       <div class="navbar-item"><h3>Hi, {{ user }} </h3></div>
       <a class='navbar-item' href='/logout'>Logout</a><br>
     </div>
 
-    <div class='main'>
+    <div class='main is-fluid'>
 
       <div class="container">
         <div class="notification">
@@ -74,9 +87,7 @@
       <div class='column has-text-centered'>
         <div class="container btns">
           <div class='buttons'>
-            <button id='beginning'>Beginning</button>
             <button id='previous'>Previous</button>
-            <button id='skip' onclick="alertMe()">Skip</button>
             <button id='next' onclick="processAnnotatedText()">Preview</button>
           </div>
         </div>

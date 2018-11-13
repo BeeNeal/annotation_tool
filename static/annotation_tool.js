@@ -27,31 +27,40 @@ function displaySlots(result) {
     slotBtnNode.removeChild(slotBtnNode.firstChild);
     }
 
+
     if (result !== 'null') {
         let slots = Function('"use strict";return (' + result + ')')();
 //        let slots = eval('(' + result + ')'); <-worse way to do the above line
 
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
-        // need to clean the results to take out "" and []
-        let colorOptions = ['#ff4e00', '#8ea604', '#f5bb00', '#a23b72', '#2e86ab']
-        let colorCounter = 0
+        let colorOptions = ['#ff4e00', '#8ea604', '#f5bb00', '#a23b72', '#2e86ab'];
+        let colorCounter = 0;
 
         slots.forEach (( function(v) {
             colorSlotsObject[colorOptions[colorCounter]] = v;
             let button = document.createElement('button');
             button.type = 'button';
-            button.id = v
-            button.className = 'slotOptionBtn'
-            button.addEventListener("click", changeColor)
+            button.id = v;
+            button.className = 'slotOptionBtn';
+            button.addEventListener("click", changeColor);
             button.innerHTML = v;
             button.style.backgroundColor = colorOptions[colorCounter];
             colorCounter ++;
             $('#slotOptions').append(button);
 
         }));
-        
-    $("#storage").val(colorSlotsObject)
+
+        let clearBtn = document.createElement('button');
+        clearBtn.type = 'button';
+        clearBtn.id = 'clear';
+        clearBtn.className = 'slotOptionBtn';
+        clearBtn.addEventListener("click", changeColor);
+        clearBtn.innerHTML = 'clear selection';
+        clearBtn.style.backgroundColor = 'blue';
+        $('#slotOptions').append(clearBtn);
+
+    $("#storage").val(colorSlotsObject);
     } else {
         slotBtnNode.innerHTML = 'No Slots';
     }
@@ -60,9 +69,14 @@ function displaySlots(result) {
 
 
 function changeColor(){
+
+    if(this.style.backgroundColor === 'blue') {
+    this.removeAttr('color');
+    }
+
     let slotColor = this.style.backgroundColor;
     let selObj = window.getSelection();
-    let currentId = this.id
+    let currentId = this.id;
  
     if (selObj.rangeCount && selObj.getRangeAt) {
         range = selObj.getRangeAt(0);
@@ -73,6 +87,7 @@ function changeColor(){
         selObj.removeAllRanges();
         selObj.addRange(range);
       }
+
     // Colorize text
     document.execCommand("ForeColor", false, slotColor);
     // Set design mode to off
@@ -80,6 +95,17 @@ function changeColor(){
 
 } 
 
+function removeHighlighting(){
+
+
+}
+
+
+function removeTextColor() {
+//    upon label change
+    $('#contentLine').css('color', '')
+
+}
 
 function grabSlotOptions(evt) {
 
@@ -90,14 +116,13 @@ function grabSlotOptions(evt) {
 
     $.post("/generate_slots", label, displaySlots)
 
-};
+}
 
 function toggleToNext(){
     $("#next").attr('onclick', 'writeToUserFile()');
     $("#next").text("Next");
-//    $("#preview").css('background-color', 'has-text-white-ter')
     document.getElementById("preview").style.backgroundColor = "#1A95CE";
-};
+}
 
 function toggleToPreview() {
     $("#next").attr('onclick', 'processAnnotatedText()');
@@ -163,9 +188,17 @@ $("#skip").click(alertMe);
 $("#next").click(alertMe);
 
 function displayLine(result) {
+    // this function takes the result and pops lines off, storing the shortened
+    // array each time
     let fileLines = result;
     // let lastLine = fileLines[fileLines.length - 1];
     let lastLine = fileLines.pop();
+
+    // when get to last line
+    if(lastLine.trim().length === 0 ){
+        $('.modal').addClass('is-active');
+    }
+
     $("#contentLine").text(lastLine);
     // need the following line to be storage, pick it up in nextLine function
     $("#contentPkg").text(fileLines);  
@@ -186,8 +219,18 @@ function grabFileName(evt) {
 };
 
 
+$(".modal-close").click(function() {
+   $(".modal").removeClass("is-active");
+});
+
+// all code below gets executed
+$(document).ready(function() {
+    $(".modal-close").click( ()=> {$(".modal").removeClass("is-active")});
+
+   $(".modal").removeClass("is-active");
 
 // below lines are grabbing the user selected file and labels
-$('myselect').on('select2:change', grabFileName);
-$('#myselLabel').on('select2:change', grabSlotOptions);
+    $('myselect').on('select2:change', grabFileName);
+    $('#myselLabel').on('select2:change', grabSlotOptions);
 
+})
