@@ -33,6 +33,21 @@ button {
 }
 
 
+#clearBtn {
+    color: black;
+    background: repeating-linear-gradient(
+  45deg,
+  #eee,
+  #999 10px,
+  #ccc 10px,
+  #ccc 20px )
+}
+
+
+#previous {
+    background: blue;
+
+}
 #slotOptions {
 
     display: flex;
@@ -58,7 +73,9 @@ button {
     text-align: center;
 }
 
-
+temp {
+color: blue;
+}
 
 #preview {
     display: flex;
@@ -68,6 +85,16 @@ button {
 
 
 
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 #next {

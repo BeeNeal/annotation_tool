@@ -27,10 +27,12 @@ function displaySlots(result) {
     slotBtnNode.removeChild(slotBtnNode.firstChild);
     }
 
+    // remove highlighting from div in case change label halfway through
+    $('#contentLine').text($('#contentLine').text());
 
     if (result !== 'null') {
         let slots = Function('"use strict";return (' + result + ')')();
-//        let slots = eval('(' + result + ')'); <-worse way to do the above line
+    // let slots = eval('(' + result + ')'); <-worse way to do the above line
 
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
@@ -42,7 +44,7 @@ function displaySlots(result) {
             let button = document.createElement('button');
             button.type = 'button';
             button.id = v;
-            button.className = 'slotOptionBtn';
+            button.className = 'slotOptionBtn noselect';
             button.addEventListener("click", changeColor);
             button.innerHTML = v;
             button.style.backgroundColor = colorOptions[colorCounter];
@@ -53,9 +55,9 @@ function displaySlots(result) {
 
         let clearBtn = document.createElement('button');
         clearBtn.type = 'button';
-        clearBtn.id = 'clear';
+        clearBtn.id = 'clearBtn';
         clearBtn.className = 'slotOptionBtn';
-        clearBtn.addEventListener("click", changeColor);
+        clearBtn.addEventListener("click", removeColor);
         clearBtn.innerHTML = 'clear selection';
         clearBtn.style.backgroundColor = 'blue';
         $('#slotOptions').append(clearBtn);
@@ -69,10 +71,6 @@ function displaySlots(result) {
 
 
 function changeColor(){
-
-    if(this.style.backgroundColor === 'blue') {
-    this.removeAttr('color');
-    }
 
     let slotColor = this.style.backgroundColor;
     let selObj = window.getSelection();
@@ -95,17 +93,27 @@ function changeColor(){
 
 } 
 
-function removeHighlighting(){
+function removeColor(){
 
+    let selObj = window.getSelection();
+
+    if (selObj.rangeCount && selObj.getRangeAt) {
+        range = selObj.getRangeAt(0);
+      }
+    // Set design mode to on
+    document.designMode = "on";
+      if (range) {
+        selObj.removeAllRanges();
+        selObj.addRange(range);
+      }
+
+    // remove text color
+    document.execCommand("removeFormat", false, "foreColor");
+    // Set design mode to off
+    document.designMode = "off";
 
 }
 
-
-function removeTextColor() {
-//    upon label change
-    $('#contentLine').css('color', '')
-
-}
 
 function grabSlotOptions(evt) {
 
@@ -194,7 +202,7 @@ function displayLine(result) {
     // let lastLine = fileLines[fileLines.length - 1];
     let lastLine = fileLines.pop();
 
-    // when get to last line
+    // when get to last line, activate modal to indicate choose another file
     if(lastLine.trim().length === 0 ){
         $('.modal').addClass('is-active');
     }
