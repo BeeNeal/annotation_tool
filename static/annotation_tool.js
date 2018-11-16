@@ -32,7 +32,7 @@ function displaySlots(result) {
 
     if (result !== 'null') {
         let slots = Function('"use strict";return (' + result + ')')();
-    // let slots = eval('(' + result + ')'); <-worse way to do the above line
+        //  let slots = eval('(' + result + ')'); <-worse way to do the above line
 
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};

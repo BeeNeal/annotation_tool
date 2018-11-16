@@ -1,10 +1,6 @@
 .main {
     background-image: url("paperBg.jpg");
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 40;
-    left:0;
+
 }
 
 button {
@@ -22,25 +18,15 @@ button {
     width:500px;
 }
 
-.ddownMenu {
-}
-
-.buttons {
-    width: 500px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-}
-
 
 #clearBtn {
     color: black;
     background: repeating-linear-gradient(
-  45deg,
-  #eee,
-  #999 10px,
-  #ccc 10px,
-  #ccc 20px )
+    45deg,
+    #eee,
+    #999 10px,
+    #ccc 10px,
+    #ccc 20px )
 }
 
 
@@ -60,14 +46,6 @@ button {
 }
 
 
-.fileSelectionContainer {
-
-}
-
-#labelOptions {
-
-}
-
 #contentLine {
 
     text-align: center;
@@ -82,9 +60,17 @@ color: blue;
     justify-content: center;
     height: 200px;
     border-radius: 6px;
+    tab-size: 10px;
+    -moz-tab-size: 10em;
+    -o-tab-size: 10em;
+    -webkit-tab-size: 10em;
+}
 
-
-
+Pre {
+    tab-size: 10px;
+    -moz-tab-size: 10em;
+    -o-tab-size: 10em;
+    -webkit-tab-size: 10em;
 }
 
 .noselect {
@@ -104,3 +90,9 @@ color: blue;
 p::selection { 
   background-color: gray; 
 }
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+

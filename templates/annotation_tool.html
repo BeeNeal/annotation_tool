@@ -32,8 +32,8 @@
       <a class='navbar-item' href='/logout'>Logout</a><br>
     </div>
 
-    <div class='main is-fluid'>
-
+    <section class="hero">
+      <div class="'hero-body main">
       <div class="container">
         <div class="notification">
          <div class="fileSelectionContainer">
@@ -51,7 +51,7 @@
 
       <section class="section is-large">
         <div class="container">
-          <div class="columns">
+          <div class="columns is-centered">
             <div class="column is-4">
 
              <div id='labelOptions' class='ddownMenu'>
@@ -70,33 +70,34 @@
 
             </div>
 
-
           </div>
         </div>
       </section>
 
-      <section class='section'>
-        <div class='column has-text-centered'>
+      <div class="columns">
+        <div class="column is-one-fifth"></div>
+        <div class='column is-three-fifths'>
           <div class="container">
-            <div id='preview' class="title">
+            <div id='preview' class="title is-vertical-center">
               <div id="previewText"></div>
               <div hidden id='storage'></div>
+            </div>
           </div>
         </div>
 
-      <div class='column has-text-centered'>
-        <div class="container btns">
-          <div class='buttons'>
-            <button id='previous'>Previous</button>
-            <button id='next' onclick="processAnnotatedText()">Preview</button>
+        <div class='column is-one-fifth'>
+          <div class="container btns">
+            <div class='buttons'>
+              <button id='next' onclick="processAnnotatedText()">Preview</button>
+            </div>
           </div>
         </div>
       </div>
-      </section>
-
           <script type="text/javascript">
             $(".myselect").select2();
           </script>
+
       </div>
+      </section>
   </body>
 </html>
