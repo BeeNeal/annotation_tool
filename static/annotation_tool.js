@@ -1,6 +1,6 @@
 
 function alertMe(evt) {
-    alert("Zamboni!");
+    alert("This is working");
 };
 
 function sameFileAlert() {
@@ -32,7 +32,6 @@ function displaySlots(result) {
 
     if (result !== 'null') {
         let slots = Function('"use strict";return (' + result + ')')();
-        //  let slots = eval('(' + result + ')'); <-worse way to do the above line
 
         // initializing object for slot to color processing in python
         let colorSlotsObject = {};
@@ -88,7 +87,6 @@ function changeColor(){
 
     // Colorize text
     document.execCommand("ForeColor", false, slotColor);
-    // Set design mode to off
     document.designMode = "off";
 
 } 
@@ -109,14 +107,21 @@ function removeColor(){
 
     // remove text color
     document.execCommand("removeFormat", false, "foreColor");
-    // Set design mode to off
     document.designMode = "off";
 
 }
 
+// If user changes label after doing work - previewed text will reset
+function resetTextSelection(){
+    if($("#previewText").text()){
+    $("#previewText").text('')      
+    };
+    toggleToPreview();
+}
 
 function grabSlotOptions(evt) {
 
+    resetTextSelection();
     selectedLabel = $('#select2-myselLabel-container').attr('title')
     let label = {
         "label": selectedLabel, 
@@ -126,6 +131,7 @@ function grabSlotOptions(evt) {
 
 }
 
+// toggles next-preview button and removes preview text
 function toggleToNext(){
     $("#next").attr('onclick', 'writeToUserFile()');
     $("#next").text("Next");
@@ -155,6 +161,11 @@ function processAnnotatedText(evt) {
 
 };
 
+// Instead of sending text to python to process in the above func, keep in JS here:
+function extractLabeledEntities(highlightedText){
+    let startPos = highlightedText.indexOf("<")
+}
+
 
 function writeToUserFile() {
 
@@ -172,8 +183,7 @@ function writeToUserFile() {
 
 
 function stashColorSlotsObj(colorSlotsObject) {
-    //  add functionality for when no slots - deal with it when it breaks,
-    // may handle on python side
+    //  may need to add functionality for when no slots 
     $("#storage").val(colorSlotsObject)
 
 }
@@ -188,8 +198,6 @@ function nextLine(evt) {
     let allLines = fileLines.split(",");
     displayLine(allLines);
 
-//    let lastLine = fileLines.split("\n");
-
 };
 
 $("#skip").click(alertMe);
@@ -199,7 +207,6 @@ function displayLine(result) {
     // this function takes the result and pops lines off, storing the shortened
     // array each time
     let fileLines = result;
-    // let lastLine = fileLines[fileLines.length - 1];
     let lastLine = fileLines.pop();
 
     // when get to last line, activate modal to indicate choose another file

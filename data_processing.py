@@ -41,7 +41,7 @@ def all_indices(annotated_line, sub):
 
 
 def extract_slot_colors(annotated_line, colors_to_slots):
-    """Returns an list of the slot names in order of how were highlighted"""
+    """Returns a list of the slot names in order of how were highlighted"""
 
     colors_to_slots = json.loads(colors_to_slots)
     ordered_slots = []
@@ -135,6 +135,8 @@ def append_file_text(annotated_pkg, file_name, username):
 
     return
 
+
+'<font color="#ff4e00">This is</font> another string, <font color="#8ea604">with a</font> comma for <font color="#f5bb00">testing</font>'
 
 
 

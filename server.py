@@ -53,7 +53,7 @@ def display_content():
     if file_name:
         content = helper_functions.return_text(file_name)
     else:
-        content = 'woohoo'
+        content = 'Please select a file'
   
     return jsonify(content)
 
@@ -93,16 +93,6 @@ def append_to_file():
 
     # return next line for processing
     return annotated_pkg
-
-
-# Fake route for test purposes
-@app.route('/pewpew', methods=['POST'])
-def pewpew():
-    """test route"""
-
-    x = "PEW PEW PEW PEW PEW"
-    print(x)
-    return jsonify(x)
 
 
 @app.route('/logout')

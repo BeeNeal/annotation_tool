@@ -34,11 +34,10 @@ button {
     background: blue;
 
 }
-#slotOptions {
 
+#slotOptions {
     display: flex;
     justify-content: center;
-
 }
 
 .btns {
@@ -47,12 +46,11 @@ button {
 
 
 #contentLine {
-
     text-align: center;
 }
 
-temp {
-color: blue;
+#temp {
+    color: blue;
 }
 
 #preview {
@@ -66,7 +64,7 @@ color: blue;
     -webkit-tab-size: 10em;
 }
 
-Pre {
+.pre {
     tab-size: 10px;
     -moz-tab-size: 10em;
     -o-tab-size: 10em;
