@@ -2,7 +2,7 @@ from flask import (Flask, jsonify, render_template, redirect, request,
                    flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
-import helper_functions, data_processing
+import helper_functions, data_processing, db_helpers
 import json
 
 app = Flask(__name__)
@@ -75,7 +75,12 @@ def process_annotated_text():
 
     # Try changing all oxf this to GET instead of POST when get a chance
     annotated_line = request.form.get('text')
-    colors_to_slots = request.form.get("colorSlotsObj")
+    colors_to_slots = request.form.get('colorSlotsObj')
+    entities = request.form.get('entities')
+
+    ordered_slots = extract_slot_colors(annotated_line, colors_to_slots)
+    db_helpers.add_entities_to_db(entities, ordered_slots)
+
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             colors_to_slots)
 

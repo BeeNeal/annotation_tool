@@ -12,7 +12,7 @@ function preview(result) {
 
     let previewText = result;
     let label = $('#select2-myselLabel-container').attr('title');
-//    currently the below tab is not showing up on the page, but is present
+    //    currently the below tab is not showing up on the page, but is present
     let annotated = label + '\t' + result;
     $('#previewText').text(annotated);
 
@@ -149,12 +149,15 @@ function toggleToPreview() {
 function processAnnotatedText(evt) {
 
     toggleToNext();
-    let textWithHighlights = $('#contentLine').html();
-    let colorSlots = $("#storage").val();
+    const textWithHighlights = $('#contentLine').html();
+    const colorSlots = $("#storage").val();
+    const entities = extractEntities();
+
     colorSlots = JSON.stringify(colorSlots);
-    let annotatedText = {
+    const annotatedText = {
         "colorSlotsObj": colorSlots,
         "text": textWithHighlights,
+        "entities": entities,
     };
 
     $.post('/process_text', annotatedText, preview)
@@ -169,7 +172,7 @@ function extractLabeledEntities(highlightedText){
 
 function writeToUserFile() {
 
-    toggleToPreview()
+    toggleToPreview();
     let fileName = $('#select2-mysel-container').attr('title');
     let annotated_text = $('#previewText').text();
 
@@ -202,6 +205,16 @@ function nextLine(evt) {
 
 $("#skip").click(alertMe);
 $("#next").click(alertMe);
+
+function extractEntities(){
+    const rePattern = /">.+?</g;
+    const entities = $('#contentLine').html().match(rePattern);
+    const cleanEntities = [];
+    for (const e of entities) {
+        cleanEntities.push(e.slice(2, e.length-1));
+    };
+    return(cleanEntities);
+}
 
 function displayLine(result) {
     // this function takes the result and pops lines off, storing the shortened
