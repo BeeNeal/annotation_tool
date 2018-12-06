@@ -1,12 +1,11 @@
 from flask import (Flask, jsonify, render_template, redirect, request,
                    flash, session)
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 import helper_functions, data_processing, db_helpers
 import json
 
-app = Flask(__name__)
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 # secret key for the session
 app.secret_key = 'abc'
 
@@ -110,4 +109,6 @@ def logout():
 if __name__ == '__main__':
     app.run(debug=True)
     # app.debug = True
+    connect_to_db(app)
     app.config['SECRET_KEY'] = 'SUPERSECRETKEY'
+    app.run(port=5000, host='0.0.0.0')
