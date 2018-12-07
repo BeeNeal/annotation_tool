@@ -4,6 +4,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
 db = SQLAlchemy(app)
 
+
 class User(db.Model):
     """ """
     __tablename__ = 'users'
@@ -34,7 +35,7 @@ class IntentLabel(db.Model):
 
 
 class EntityLabel(db.Model):
-    """Entity level labels"""
+    """Entity level labels- assumes there is an associated intent label"""
 
     __tablename__ = 'entity_labels'
 
@@ -61,7 +62,10 @@ class Entity():
 
     entity_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entity = db.Column(db.String(255))
-    text_id = db.Column(db.Integer, db.ForeignKey='text.text_id')  # this may change to dataset_id depending on how we're storing our data
+    entity_label = db.Column(db.String(255), 
+                             db.ForeignKey('entity_labels.entity_label'))
+    text_id = db.Column(db.Integer, db.ForeignKey('text.text_id'))  
+
 
 
 # need some type of labeling 'instance' to connect annotator with label

@@ -5,6 +5,13 @@ from jinja2 import StrictUndefined
 import helper_functions, data_processing, db_helpers
 import json
 
+# keep below chunk in model file
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
+db = SQLAlchemy(app)
+
 # toolbar = DebugToolbarExtension(app)
 # secret key for the session
 app.secret_key = 'abc'
@@ -72,7 +79,7 @@ def generate_slots():
 def process_annotated_text():
     """Grab highlighted text from JS, returns text with tags"""
 
-    # Try changing all oxf this to GET instead of POST when get a chance
+    # Try changing all of this to GET instead of POST when get a chance
     annotated_line = request.form.get('text')
     colors_to_slots = request.form.get('colorSlotsObj')
     entities = request.form.get('entities')
