@@ -40,21 +40,21 @@ function displaySlots(result) {
         let colorOptions = ['#ff4e00', '#8ea604', '#f5bb00', '#a23b72', '#2e86ab'];
         let colorCounter = 0;
 
-        let num_start = 49
+        let num_code = 49
 
         slots.forEach (( function(v) {
             colorSlotsObject[colorOptions[colorCounter]] = v;
-            numToLabels[num_start] = v;
+            numToLabels[num_code] = v;
             let button = document.createElement('button');
             button.type = 'button';
             button.id = v;
             button.className = 'slotOptionBtn noselect';
             button.addEventListener("click", changeColor);
             button.addEventListener("keypress", checkKey);
-            button.innerHTML = v;
+            button.innerHTML = '[' + (colorCounter + 1) + '] ' + v;
             button.style.backgroundColor = colorOptions[colorCounter];
             colorCounter ++;
-            num_start ++;
+            num_code ++;
             $('#slotOptions').append(button);
 
         }));
@@ -64,9 +64,10 @@ function displaySlots(result) {
         clearBtn.id = 'clearBtn';
         clearBtn.className = 'slotOptionBtn';
         clearBtn.addEventListener("click", removeColor);
-        clearBtn.innerHTML = 'clear selection';
+        clearBtn.innerHTML = '[' + (colorCounter + 1) + '] '+ 'clear selection';
         clearBtn.style.backgroundColor = 'blue';
         $('#slotOptions').append(clearBtn);
+        numToLabels[num_code] = 'clearBtn';
 
     $("#storage").val(colorSlotsObject);
     $("#storage2").val(numToLabels);
@@ -83,14 +84,10 @@ function checkKey(evt) {
 
     const numToLabelsObj = $("#storage2").val();
     var key = evt.which || evt.keyCode;
-    if (key === 49) {
-        $('#' + numToLabelsObj[49]).trigger('click');
+    if (key in numToLabelsObj){
+        $('#' + numToLabelsObj[key]).trigger('click');
     }
 }
-
-    // if (key in numToLabelsObj){
-    //     $('#').trigger('click');
-    // }
 
 
 document.addEventListener("keypress", checkKey);
