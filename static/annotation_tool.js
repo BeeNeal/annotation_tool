@@ -171,11 +171,11 @@ function toggleToPreview() {
 
 function processAnnotatedText(evt) {
 
+    alert("I'm HERE!")
     toggleToNext();
     const textWithHighlights = $('#contentLine').html();
-    const colorSlots = $("#storage").val();
-    const entities = extractEntities();
-
+    let colorSlots = $("#storage").val();
+    const entities = JSON.stringify(extractEntities());
     colorSlots = JSON.stringify(colorSlots);
     const annotatedText = {
         "colorSlotsObj": colorSlots,
@@ -192,6 +192,17 @@ function extractLabeledEntities(highlightedText){
     let startPos = highlightedText.indexOf("<")
 }
 
+function extractEntities(){
+    const rePattern = /">.+?</g;
+    console.log($('#contentLine').text());
+    const entities = $('#contentLine').html().match(rePattern);
+    const cleanEntities = [];
+    for (const e of entities) {
+        cleanEntities.push(e.slice(2, e.length-1));
+    };
+    console.log(cleanEntities);
+    return(cleanEntities);
+}
 
 function writeToUserFile() {
 
@@ -229,15 +240,7 @@ function nextLine(evt) {
 $("#skip").click(alertMe);
 $("#next").click(alertMe);
 
-function extractEntities(){
-    const rePattern = /">.+?</g;
-    const entities = $('#contentLine').html().match(rePattern);
-    const cleanEntities = [];
-    for (const e of entities) {
-        cleanEntities.push(e.slice(2, e.length-1));
-    };
-    return(cleanEntities);
-}
+
 
 function displayLine(result) {
     // this function takes the result and pops lines off, storing the shortened

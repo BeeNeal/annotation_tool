@@ -10,6 +10,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # toolbar = DebugToolbarExtension(app)
@@ -18,7 +19,10 @@ app.secret_key = 'abc'
 
 app.jinja_env.undefined = StrictUndefined
 
+# FIXME - make FNAMES come from DB (Dataset, text?) instead of directories
 FNAMES = helper_functions.ls_files()
+
+# FIXME - make labels come from DB instead of file
 LABELS = data_processing.labels_from_json('/Users/bneal/Desktop/annotation_tool/data_files/annotation_structure.json')
 
 
@@ -79,13 +83,15 @@ def generate_slots():
 def process_annotated_text():
     """Grab highlighted text from JS, returns text with tags"""
 
-    # Try changing all of this to GET instead of POST when get a chance
+    print('arriving at process_text')
     annotated_line = request.form.get('text')
     colors_to_slots = request.form.get('colorSlotsObj')
     entities = request.form.get('entities')
 
-    ordered_slots = extract_slot_colors(annotated_line, colors_to_slots)
-    db_helpers.add_entities_to_db(entities, ordered_slots)
+    ordered_slots = data_processing.extract_slot_colors(annotated_line, colors_to_slots)
+    print (ordered_slots)
+    print (list(entities))
+    db_helpers.add_entities_to_db(json.loads(entities), ordered_slots)
 
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             colors_to_slots)
@@ -105,6 +111,7 @@ def append_to_file():
     # return next line for processing
     return annotated_pkg
 
+# HERE TO ADD ENTITIES TO DB ONCE ANNOTATED
 
 @app.route('/logout')
 def logout():

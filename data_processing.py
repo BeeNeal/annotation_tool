@@ -125,8 +125,6 @@ def process_annotated_text(annotated_line, color_slots_obj):
 def append_file_text(annotated_pkg, file_name, username):
     """Takes in annotated text, writes to new file labeled with username"""
 
-    print(annotated_pkg + file_name + username)
-
     file_name_wo_ext = file_name[:-4]
     new_file = file_name_wo_ext + '_' + username + '.txt'
     f = open(new_file, 'a+')
@@ -136,7 +134,4 @@ def append_file_text(annotated_pkg, file_name, username):
     return
 
 
-'<font color="#ff4e00">This is</font> another string, <font color="#8ea604">with a</font> comma for <font color="#f5bb00">testing</font>'
-
-
-
+exp = '<font color="#ff4e00">This is</font> another string, <font color="#8ea604">with a</font> comma for <font color="#f5bb00">testing</font>'

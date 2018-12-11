@@ -5,17 +5,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
-    """ """
-    __tablename__ = 'users'
+class Text(db.Model):
+    """Text from dataset, ready to be annotated"""
 
-    # table definition:
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(255), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
-    # create_at = db.Column(db.DateTime, server_default=func.now())
-    # update_at = db.Column(db.DateTime, server_default=func.now(), 
-    #                                    server_onupdate=db.func.now())
+    __tablename__ = 'lines'
+
+    line_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    line = db.Column(db.String(255), nullable=False)
 
 
 class IntentLabel(db.Model):
@@ -42,12 +38,8 @@ class EntityLabel(db.Model):
     entity_label_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entity_label = db.Column(db.String(255))
     intent_label = db.Column(db.String(255), 
-                                db.ForeignKey('intent_labels.intent_label'))
+                                db.ForeignKey('text.final_label'))
     closed_set = db.Column(db.Boolean, default=False)
-
-    # intent_label_id = db.Column(db.Integer, 
-    #                             db.ForeignKey('intent_labels.intent_label_id'))
-    # annotator_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -55,7 +47,7 @@ class EntityLabel(db.Model):
         return f"<Entity Label label={self.entity_label} >"
 
 
-class Entity():
+class Entity(db.Model):
     """Labeled entities that have been extracted from the sentence"""
 
     __tablename__ = 'entities'
