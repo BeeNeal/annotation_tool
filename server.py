@@ -2,16 +2,15 @@ from flask import (Flask, jsonify, render_template, redirect, request,
                    flash, session)
 # from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+from flask_sqlalchemy import SQLAlchemy
+from model_addition import *
 import helper_functions, data_processing, db_helpers
 import json
 
 # keep below chunk in model file
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
+
 
 # toolbar = DebugToolbarExtension(app)
 # secret key for the session
@@ -22,10 +21,11 @@ app.jinja_env.undefined = StrictUndefined
 # FIXME - make FNAMES come from DB (Dataset, text?) instead of directories
 FNAMES = helper_functions.ls_files()
 
-# FIXME - make labels come from DB instead of file
+# FIXME - Don't actually need labels - these will come connected to dataset text
 LABELS = data_processing.labels_from_json('/Users/bneal/Desktop/annotation_tool/data_files/annotation_structure.json')
 
 
+# FIXME - change to getting annotator id from session from DB
 @app.route('/', methods=['GET'])
 def index():
     """Routes to login if no username in session, or annotool if logged in."""
@@ -54,7 +54,7 @@ def annotation_tool():
                                                    labels=LABELS
                                                    )
 
-
+# change to selecting a dataset/task
 @app.route('/annotate_content', methods=['POST'])
 def display_content():
     """Returns jsonified text content of selected file."""
@@ -83,15 +83,18 @@ def generate_slots():
 def process_annotated_text():
     """Grab highlighted text from JS, returns text with tags"""
 
-    print('arriving at process_text')
     annotated_line = request.form.get('text')
     colors_to_slots = request.form.get('colorSlotsObj')
-    entities = request.form.get('entities')
+    # entities = request.form.get('entities')
+    start_indices = request.form.get('start_indices')
+    end_indices = request.form.get('end_indices')
 
-    ordered_slots = data_processing.extract_slot_colors(annotated_line, colors_to_slots)
-    print (ordered_slots)
-    print (list(entities))
-    db_helpers.add_entities_to_db(json.loads(entities), ordered_slots)
+    ordered_slots = data_processing.extract_slot_colors(annotated_line, 
+                                                        colors_to_slots)
+
+    db_helpers.add_entities_to_db(json.loads(start_indices), 
+                                  json.loads(end_indices),
+                                  ordered_slots)
 
     annotated_text = data_processing.process_annotated_text(annotated_line, 
                                                             colors_to_slots)

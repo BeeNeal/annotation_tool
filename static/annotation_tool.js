@@ -1,13 +1,4 @@
 
-function alertMe(evt) {
-    alert("This is working");
-};
-
-function sameFileAlert() {
-    const warning = 'A completed or in progress file for this user already exists - overwrite?';
-    alert(warning)
-};
-
 function preview(result) {
 
     let previewText = result;
@@ -78,7 +69,7 @@ function displaySlots(result) {
 
 
 // this is how to keytrigger based on number, now need to tie button to key
-// can try to tie to the button which has the characteristics used in change colro
+// can try to tie to the button which has the characteristics used in change color
 // or can write whole new function which ties those attributes to the key
 function checkKey(evt) {
 
@@ -171,30 +162,42 @@ function toggleToPreview() {
 
 function processAnnotatedText(evt) {
 
-    alert("I'm HERE!")
     toggleToNext();
     const textWithHighlights = $('#contentLine').html();
     let colorSlots = $("#storage").val();
-    const entities = JSON.stringify(extractEntities());
+
+// start sandbox
+    let start_indices = getAllIndices(exp, '">');
+    start_indices = JSON.stringify(start_indices.map(x => x + 2));
+    const end_indices = JSON.stringify(getAllIndices(exp, '</'));
+// end sandbox
+
+    // const entities = JSON.stringify(extractEntities());
     colorSlots = JSON.stringify(colorSlots);
     const annotatedText = {
         "colorSlotsObj": colorSlots,
         "text": textWithHighlights,
-        "entities": entities,
+        // "entities": entities,
+        "start_indices": start_indices,
+        "end_indices": end_indices
     };
 
     $.post('/process_text', annotatedText, preview)
 
 };
 
-// Instead of sending text to python to process in the above func, keep in JS here:
-function extractLabeledEntities(highlightedText){
-    let startPos = highlightedText.indexOf("<")
+// Extract indices of all entities from highlight-annotated text
+function getAllIndices(arr, val) {
+    let indices = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        indices.push(i);
+    }
+    return indices;
 }
 
+// Extract entities in text form (deprecated in favor of indices)
 function extractEntities(){
     const rePattern = /">.+?</g;
-    console.log($('#contentLine').text());
     const entities = $('#contentLine').html().match(rePattern);
     const cleanEntities = [];
     for (const e of entities) {
@@ -236,10 +239,6 @@ function nextLine(evt) {
     displayLine(allLines);
 
 };
-
-$("#skip").click(alertMe);
-$("#next").click(alertMe);
-
 
 
 function displayLine(result) {

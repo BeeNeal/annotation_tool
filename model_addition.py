@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-app = Flask(__name__)
+from server import app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///template1'
 db = SQLAlchemy(app)
 
@@ -53,7 +53,8 @@ class Entity(db.Model):
     __tablename__ = 'entities'
 
     entity_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entity = db.Column(db.String(255))
+    start_index = db.Column(db.Integer)
+    end_index = db.Column(db.Integer)
     entity_label = db.Column(db.String(255), 
                              db.ForeignKey('entity_labels.entity_label'))
     text_id = db.Column(db.Integer, db.ForeignKey('text.text_id'))  
@@ -67,16 +68,25 @@ class Entity(db.Model):
 
 # helper functions below
 
-# def connect_to_db(app, db_uri='postgresql:///annotool'):
-#     """Connect the database to our Flask app."""
+def create_all():
+    app = Flask(__name__)
+    db.init_app(app)
+    return app
 
-#     # Configure to use our database.
-#     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-#     db.app = app
 
-# if __name__ == "__main__":
+def connect_to_db(app, db_uri='postgresql:///template1'):
+    """Connect the database to our Flask app."""
+
+    # Configure to use our database.
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    db.init_app(app)
+    return app
+
+if __name__ == "__main__":
 
 #     # midea_postgres = 'postgresql://postgres:mideata666666@pg.mideata.com:5432/postgres'
 #     # add midea postgres to connect to db when ready
-#     connect_to_db(app)
-#     db.create_all()
+    from server import app
+    connect_to_db(app)
+    db.create_all()
